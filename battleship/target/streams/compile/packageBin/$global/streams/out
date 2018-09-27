@@ -1,0 +1,21 @@
+[0m[[0m[0minfo[0m] [0m[0mPackaging /home/cyp/battleship/battleship/target/scala-2.12/battleship_2.12-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/battleship[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Boat.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/Boat.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Game$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/battleship/Game$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/GameState.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/battleship/GameState.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Game.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/battleship/Game.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Case.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/Case.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Position.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/Position.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Game$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/battleship/Game$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/GameState$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/cyp/battleship/battleship/target/scala-2.12/classes/battleship/GameState$.class[0m
+[0m[[0m[0minfo[0m] [0m[0mDone packaging.[0m
