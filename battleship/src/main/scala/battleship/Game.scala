@@ -2,6 +2,7 @@ package battleship
 
 import scala.collection.immutable
 import boats._
+import player._
 
 object Game extends App{
 
@@ -16,24 +17,16 @@ object Game extends App{
         println("Player 2 \n")
         val boatsPlayer2 = player2.getBoats(List(),0)
 
-        val boat11 = boatsPlayer1.head
-        val boat12 = boatsPlayer1.tail.head
-        val boat13 = boatsPlayer1.tail.tail.head
-        val boat14 = boatsPlayer1.tail.tail.tail.head
-        val boat15 = boatsPlayer1.tail.tail.tail.tail.head
 
-
-        val boat21 = boatsPlayer2.head
-        val boat22 = boatsPlayer2.tail.head
-        val boat23 = boatsPlayer2.tail.tail.head
-        val boat24 = boatsPlayer2.tail.tail.tail.head
-        val boat25 = boatsPlayer2.tail.tail.tail.tail.head
-
-
-        val newPlayer1 = player1.createFleet(boat11,boat12,boat13,boat14,boat15)
-        val newPlayer2 = player2.createFleet(boat21,boat22,boat23,boat14,boat25)
+        val newPlayer1 = player1.createFleet(boatsPlayer1)
+        val newPlayer2 = player2.createFleet(boatsPlayer2)
         println(newPlayer1)
         println(newPlayer2)
+
+        var x = 0
+        for(x <- 1 until 10){
+            println("|_|_|_|_|_|_|_|_|_|_|")
+        }
 
     }
 

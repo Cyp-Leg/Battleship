@@ -1,6 +1,6 @@
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:32:51: type mismatch;[0m
-[0m[[0m[31merror[0m] [0m[0m found   : Option[List[boats.Cell]][0m
-[0m[[0m[31merror[0m] [0m[0m required: List[boats.Cell][0m
-[0m[[0m[31merror[0m] [0m[0m            val newBoat = new Boat(1,Some(newPos).get)[0m
-[0m[[0m[31merror[0m] [0m[0m                                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:53:40: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : List[boats.Cell][0m
+[0m[[0m[31merror[0m] [0m[0m required: Option[List[boats.Cell]][0m
+[0m[[0m[31merror[0m] [0m[0m            return new Cell(xPos,yPos) :: cells[0m
+[0m[[0m[31merror[0m] [0m[0m                                       ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m

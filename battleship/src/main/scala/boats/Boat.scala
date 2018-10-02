@@ -11,6 +11,10 @@ class Boat(size: Int, position: List[Cell]){
     def getPosition(): List[Cell] = {
         return this.position
     }
+
+    def isSunk(): Boolean = {
+        return this.position.length==0
+    }
 }
 
 object Boat{

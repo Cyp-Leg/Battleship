@@ -6,7 +6,6 @@ import boats._
 object GameUtils{
 
 
-
     def enterPosition(playerNum: Int, boatSize: Int, newCase: Cell, positions: List[Cell]){
         if(positions.length == 0){
             val posList = List()        

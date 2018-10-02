@@ -1,12 +1,11 @@
-package battleship
+package player
 
 import boats._
 import scala.io.StdIn.readLine
 
 class Player(num: Int, name: String, fleet: List[Boat]){
 
-    def createFleet(boat1: Boat, boat2: Boat, boat3: Boat, boat4: Boat, boat5: Boat): Player = {
-        val newFleet = List(boat1,boat2,boat3,boat4,boat5)
+    def createFleet(newFleet: List[Boat]): Player = {
         return new Player(this.num, this.name, newFleet)
     }
 
@@ -15,6 +14,10 @@ class Player(num: Int, name: String, fleet: List[Boat]){
     }
 
     def getUserInput(): String = readLine.trim.toUpperCase
+
+    def printList(args: List[_]): Unit = {
+        args.foreach(println)
+    }
 
     def getBoats(boatsList: List[Boat],boatsNumber: Int): List[Boat] = {
         if(boatsNumber<5){
@@ -29,6 +32,8 @@ class Player(num: Int, name: String, fleet: List[Boat]){
 
             val newPos = createPosition(size, xPos, yPos, orientation, List())
 
+            printList(newPos.get)
+
             val newBoat = new Boat(1,newPos.get)
             val newBoatsList = newBoat :: boatsList
             val newBoatsNumber = boatsNumber+1
@@ -41,19 +46,35 @@ class Player(num: Int, name: String, fleet: List[Boat]){
     } 
 
     def createPosition(size: Int, xPos: Int, yPos: Int, orientation: String, cells: List[Cell]): Option[List[Cell]] = {
-    if(size==0){
-        return Some(cells)
-    }
-    else{
-        orientation match {
-            case "L" => Some(new Cell(xPos-1,yPos) :: cells)
-            case "R" => Some(new Cell(xPos+1,yPos) :: cells)
-            case "U" => Some(new Cell(xPos,yPos+1) :: cells)
-            case "D" => Some(new Cell(xPos,yPos-1) :: cells)
-            case _ => None
+        if(size==0){
+            return Some(cells)
+        }
+        else{
+            orientation match {
+                case "L" => {
+                    val newSize = size-1
+                    val newCells = new Cell(xPos,yPos) :: cells
+                    createPosition(newSize, xPos-1,yPos, orientation, newCells)
+                }
+                case "R" => {
+                    val newSize = size-1
+                    val newCells = new Cell(xPos,yPos) :: cells
+                    createPosition(newSize, xPos+1,yPos, orientation, newCells)
+                }
+                case "U" => {
+                    val newSize = size-1
+                    val newCells = new Cell(xPos,yPos) :: cells
+                    createPosition(newSize, xPos,yPos+1, orientation, newCells)
+                }
+                case "D" => {
+                    val newSize = size-1
+                    val newCells = new Cell(xPos,yPos) :: cells
+                    createPosition(newSize, xPos,yPos-1, orientation, newCells)
+                }
+                case _ => None
+            }
         }
     }
-}
 }
 
 object Player{

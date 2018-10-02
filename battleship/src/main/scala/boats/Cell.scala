@@ -8,6 +8,9 @@ class Cell(x: Int, y: Int, isTouched: Boolean = false){
     def getY(): Int = {
         return this.y
     }
+    override def toString(): String = {
+        return "X : " + this.x + ", Y : " + this.y
+    }
 }
 
 object Cell{
