@@ -11,7 +11,9 @@ object Game extends App{
         val player1 = new Player(1, "Player 1", Nil)
         val player2 = new Player(2,"Player 2", Nil)
 
+        println("Player 1 \n")
         val boatsPlayer1 = player1.getBoats(List(),0)
+        println("Player 2 \n")
         val boatsPlayer2 = player2.getBoats(List(),0)
 
         val boat11 = boatsPlayer1.head
@@ -34,15 +36,6 @@ object Game extends App{
         println(newPlayer2)
 
     }
-    //val grid = List()
-
-    val grid = List(new BoatCase(1,1)) //:: grid
-
-    val case1 = new BoatCase(1,1)
-
-    val pos1 = List(case1)
-
-    val boat1 = new Boat(1,pos1)
 
     initiateGame()
 

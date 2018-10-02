@@ -7,8 +7,8 @@ package boats
  *  @param position the position of the boat
  */
 
-class Boat(size: Int, position: List[BoatCase]){
-    def getPosition(): List[BoatCase] = {
+class Boat(size: Int, position: List[Cell]){
+    def getPosition(): List[Cell] = {
         return this.position
     }
 }

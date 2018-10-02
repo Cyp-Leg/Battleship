@@ -1,7 +1,7 @@
 package boats
 
 
-class BoatCase(x: Int, y: Int, isTouched: Boolean = false){
+class Cell(x: Int, y: Int, isTouched: Boolean = false){
     def getX(): Int = {
         return this.x
     }
@@ -10,8 +10,8 @@ class BoatCase(x: Int, y: Int, isTouched: Boolean = false){
     }
 }
 
-object BoatCase{
-    implicit def touchedCase(boatCase: BoatCase): BoatCase = {
-        new BoatCase(boatCase.getX(), boatCase.getY(), true)
+object Cell{
+    implicit def touchedCase(cell: Cell): Cell = {
+        new Cell(cell.getX(), cell.getY(), true)
     }
 }

@@ -25,3 +25,10 @@ compile
 run
 compile
 run
+~compile
+compile -feature
+run -feature
+compile
+run
+1
+run

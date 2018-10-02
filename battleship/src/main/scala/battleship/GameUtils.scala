@@ -7,13 +7,13 @@ object GameUtils{
 
 
 
-    def enterPosition(playerNum: Int, boatSize: Int, newCase: BoatCase, positions: List[BoatCase]){
+    def enterPosition(playerNum: Int, boatSize: Int, newCase: Cell, positions: List[Cell]){
         if(positions.length == 0){
             val posList = List()        
-            val newPosList = BoatCase :: posList
+            val newPosList = Cell :: posList
         }
         else{
-            val newPosList = BoatCase :: positions
+            val newPosList = Cell :: positions
         }
     }
 
