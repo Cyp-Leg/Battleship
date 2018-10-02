@@ -18,16 +18,19 @@ class Player(num: Int, name: String, fleet: List[Boat]){
 
     def getBoats(boatsList: List[Boat],boatsNumber: Int): List[Boat] = {
         if(boatsNumber<5){
-            println("Chose the X position of your ship")
-            val Xpos = getUserInput()
-            println("Chose the Y position of your ship")
-            val Ypos = getUserInput()
-            :: boatsList
+            println("Boat " + boatsNumber+", chose the X position of your ship")
+            val xPos = getUserInput().toInt
+            println("Boat " + boatsNumber+", chose the Y position of your ship")
+            val yPos = getUserInput().toInt
+            val newPos = List(new BoatCase(xPos, yPos))
+            val newBoat = new Boat(1,newPos)
+            val newBoatsList = newBoat :: boatsList
             val newBoatsNumber = boatsNumber+1
+            
             getBoats(newBoatsList, newBoatsNumber)
         }
         else{
-            return Nil
+            return boatsList
         }
     } 
 }

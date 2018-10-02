@@ -11,45 +11,28 @@ object Game extends App{
         val player1 = new Player(1, "Player 1", Nil)
         val player2 = new Player(2,"Player 2", Nil)
 
-        val boatCase1 = List(new BoatCase(1,1))
+        val boatsPlayer1 = player1.getBoats(List(),0)
+        val boatsPlayer2 = player2.getBoats(List(),0)
 
-        val boatCase2 = List(new BoatCase(1,1))
+        val boat11 = boatsPlayer1.head
+        val boat12 = boatsPlayer1.tail.head
+        val boat13 = boatsPlayer1.tail.tail.head
+        val boat14 = boatsPlayer1.tail.tail.tail.head
+        val boat15 = boatsPlayer1.tail.tail.tail.tail.head
 
-        val boatCase3 = List(new BoatCase(1,1))
 
-        val boatCase4 = List(new BoatCase(1,1))
+        val boat21 = boatsPlayer2.head
+        val boat22 = boatsPlayer2.tail.head
+        val boat23 = boatsPlayer2.tail.tail.head
+        val boat24 = boatsPlayer2.tail.tail.tail.head
+        val boat25 = boatsPlayer2.tail.tail.tail.tail.head
 
-        val boatCase5 = List(new BoatCase(1,1))
-
-        val boatCase6 = List(new BoatCase(1,1))
-
-        val boatCase7 = List(new BoatCase(1,1))
-
-        val boatCase8 = List(new BoatCase(1,1))
-
-        val boatCase9 = List(new BoatCase(1,1))
-
-        val boatCase10 = List(new BoatCase(1,1))
-
-        val boat11 = new Boat(1,boatCase1)
-        val boat12 = new Boat(1,boatCase2)
-        val boat13 = new Boat(1,boatCase3)
-        val boat14 = new Boat(1,boatCase4)
-        val boat15 = new Boat(1,boatCase5)
-        val boat21 = new Boat(1,boatCase6)
-        val boat22 = new Boat(1,boatCase7)
-        val boat23 = new Boat(1,boatCase8)
-        val boat24 = new Boat(1,boatCase9)
-        val boat25 = new Boat(1,boatCase10)
 
         val newPlayer1 = player1.createFleet(boat11,boat12,boat13,boat14,boat15)
         val newPlayer2 = player2.createFleet(boat21,boat22,boat23,boat14,boat25)
-
         println(newPlayer1)
         println(newPlayer2)
 
-
-        println("AH")
     }
     //val grid = List()
 
