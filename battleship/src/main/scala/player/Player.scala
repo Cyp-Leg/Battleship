@@ -9,6 +9,10 @@ class Player(num: Int, name: String, fleet: List[Boat]){
         return new Player(this.num, this.name, newFleet)
     }
 
+    def getFleet(): List[Boat] = {
+        return this.fleet
+    }
+
     override def toString(): String = {
         return this.name + ", num " + this.num + ", boats : \n" + this.fleet
     }
@@ -62,25 +66,18 @@ class Player(num: Int, name: String, fleet: List[Boat]){
             else{
                 val newAllPositions = newPos.get ::: allPositions
 
-                printList(newPos.get)
+                val newBoatsNumber = boatsNumber+1
 
-
-                val newBoat = new Boat(size,newPos.get)
-                val newBoatsList = newBoat :: boatsList
+                val newBoat = new Boat(size,newPos.get, newBoatsNumber)
                 
+                val newBoatsList = newBoat :: boatsList
 
+                
                 if(boatsNumber == 2){
-                    val newBoatsNumber = boatsNumber+1
-                    println("\n\nAll positions : ")
-                    printList(newAllPositions)
                     getBoats(newBoatsList, newBoatsNumber, size, newAllPositions)
                 }
                 else{
-                    val newBoatsNumber = boatsNumber+1
                     val newSize = size-1
-
-                    println("\n\nAll positions : ")
-                    printList(newAllPositions)
                     getBoats(newBoatsList, newBoatsNumber, newSize, newAllPositions)
                 }
             }

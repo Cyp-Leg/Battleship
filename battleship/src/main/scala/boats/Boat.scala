@@ -7,7 +7,7 @@ package boats
  *  @param position the position of the boat
  */
 
-class Boat(size: Int, position: List[Cell]){
+class Boat(size: Int, position: List[Cell], num: Int){
     def getPosition(): List[Cell] = {
         return this.position
     }
@@ -15,11 +15,20 @@ class Boat(size: Int, position: List[Cell]){
     def isSunk(): Boolean = {
         return this.position.length==0
     }
+
+    def getNum():Int = {
+        return this.num
+    }
+
+    def isHit(cell: Cell):Boolean = {
+        this.position.foreach{pos =>
+            if(pos.getX() == cell.getX() && pos.getY() == cell.getY()){
+                return true
+            }
+        }
+        return false
+    }
 }
 
 object Boat{
-    var sunk: Boolean  = false
-    implicit def sink(): Unit = {
-        this.sunk = true
-    }
 }

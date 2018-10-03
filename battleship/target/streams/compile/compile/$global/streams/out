@@ -1,6 +1,4 @@
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:106:32: type mismatch;[0m
-[0m[[0m[31merror[0m] [0m[0m found   : Unit[0m
-[0m[[0m[31merror[0m] [0m[0m required: Option[List[boats.Cell]][0m
-[0m[[0m[31merror[0m] [0m[0m                        println("Accepted : "+acceptedPos.toString)[0m
-[0m[[0m[31merror[0m] [0m[0m                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:16:58: value getName is not a member of boats.Boat[0m
+[0m[[0m[31merror[0m] [0m[0m                        cell = Console.RED + " |" + boat.getName() + "| " + Console.RESET[0m
+[0m[[0m[31merror[0m] [0m[0m                                                         ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m
