@@ -12,10 +12,11 @@ object Game extends App{
         val player1 = new Player(1, "Player 1", Nil)
         val player2 = new Player(2,"Player 2", Nil)
 
+
         println("Player 1 \n")
-        val boatsPlayer1 = player1.getBoats(List(),0)
+        val boatsPlayer1 = player1.getBoats(List(),0,5,List())
         println("Player 2 \n")
-        val boatsPlayer2 = player2.getBoats(List(),0)
+        val boatsPlayer2 = player2.getBoats(List(),0,5,List())
 
 
         val newPlayer1 = player1.createFleet(boatsPlayer1)

@@ -19,33 +19,78 @@ class Player(num: Int, name: String, fleet: List[Boat]){
         args.foreach(println)
     }
 
-    def getBoats(boatsList: List[Boat],boatsNumber: Int): List[Boat] = {
+    def getShipName(size: Int): String = {
+        size match{
+            case 5 => "Carrier"
+            case 4 => "Battleship"
+            case 3 => "Cruiser"
+            case 2 => "Destroyer"
+        }
+    }
+
+    def checkPosition(cell: Cell, allPositions: List[Cell]): Boolean = { // TO BE MODIFIED
+        allPositions.foreach{elt=>
+            if((elt.getX() == cell.getX()) && (elt.getY() == cell.getY())){
+                return false
+            }
+            
+        }
+        if ( (cell.getX()<0) || (cell.getY()<0) || (cell.getX()>10) || (cell.getY()>10)){
+            return false
+        }        
+        return true
+    }
+
+    def getBoats(boatsList: List[Boat],boatsNumber: Int, size: Int, allPositions:List[Cell]): List[Boat] = {
         if(boatsNumber<5){
-            println("Boat " + boatsNumber+", chose the size of your ship")
-            val size = getUserInput().toInt
-            println("Boat " + boatsNumber+", chose the X position of your ship")
+            val shipName = getShipName(size)
+            println("Chose the X position of your " + shipName + " (" + size + " cells)")
             val xPos = getUserInput().toInt
-            println("Boat " + boatsNumber+", chose the Y position of your ship")
+            println("Chose the Y position of your " + shipName + " (" + size + " cells)")
             val yPos = getUserInput().toInt
-            println("Boat " + boatsNumber+", chose the orientation of your ship ('L', 'R', 'U', 'D')")
+            println("Chose the orientation of your " + shipName + " ('L','R','U','D')")
             val orientation = getUserInput()
 
-            val newPos = createPosition(size, xPos, yPos, orientation, List())
+            val newPos = createPosition(size, xPos, yPos, orientation, List(), allPositions)
 
-            printList(newPos.get)
 
-            val newBoat = new Boat(1,newPos.get)
-            val newBoatsList = newBoat :: boatsList
-            val newBoatsNumber = boatsNumber+1
-            
-            getBoats(newBoatsList, newBoatsNumber)
+            if(newPos == None){
+                println("\n\nERROR : Position out of game or already occupied. Please chose an other position\n\n")
+                getBoats(boatsList, boatsNumber, size, allPositions)
+
+            }
+            else{
+                val newAllPositions = newPos.get ::: allPositions
+
+                printList(newPos.get)
+
+
+                val newBoat = new Boat(size,newPos.get)
+                val newBoatsList = newBoat :: boatsList
+                
+
+                if(boatsNumber == 2){
+                    val newBoatsNumber = boatsNumber+1
+                    println("\n\nAll positions : ")
+                    printList(newAllPositions)
+                    getBoats(newBoatsList, newBoatsNumber, size, newAllPositions)
+                }
+                else{
+                    val newBoatsNumber = boatsNumber+1
+                    val newSize = size-1
+
+                    println("\n\nAll positions : ")
+                    printList(newAllPositions)
+                    getBoats(newBoatsList, newBoatsNumber, newSize, newAllPositions)
+                }
+            }
         }
         else{
             return boatsList
         }
     } 
 
-    def createPosition(size: Int, xPos: Int, yPos: Int, orientation: String, cells: List[Cell]): Option[List[Cell]] = {
+    def createPosition(size: Int, xPos: Int, yPos: Int, orientation: String, cells: List[Cell], allPositions: List[Cell]): Option[List[Cell]] = {
         if(size==0){
             return Some(cells)
         }
@@ -53,23 +98,43 @@ class Player(num: Int, name: String, fleet: List[Boat]){
             orientation match {
                 case "L" => {
                     val newSize = size-1
-                    val newCells = new Cell(xPos,yPos) :: cells
-                    createPosition(newSize, xPos-1,yPos, orientation, newCells)
+                    val newCell = new Cell(xPos,yPos)
+                    val acceptedPos = checkPosition(newCell,allPositions)
+                    val newCells = newCell :: cells
+                    if(acceptedPos){
+                        createPosition(newSize, xPos-1,yPos, orientation, newCells, allPositions)
+                    }
+                    else return None
                 }
                 case "R" => {
                     val newSize = size-1
-                    val newCells = new Cell(xPos,yPos) :: cells
-                    createPosition(newSize, xPos+1,yPos, orientation, newCells)
+                    val newCell = new Cell(xPos,yPos)
+                    val acceptedPos = checkPosition(newCell,allPositions)
+                    val newCells = newCell :: cells
+                    if(acceptedPos){
+                        createPosition(newSize, xPos+1,yPos, orientation, newCells, allPositions)
+                    }
+                    else return None
                 }
                 case "U" => {
                     val newSize = size-1
-                    val newCells = new Cell(xPos,yPos) :: cells
-                    createPosition(newSize, xPos,yPos+1, orientation, newCells)
+                    val newCell = new Cell(xPos,yPos)
+                    val acceptedPos = checkPosition(newCell,allPositions)
+                    val newCells = newCell :: cells
+                    if(acceptedPos){
+                        createPosition(newSize, xPos,yPos+1, orientation, newCells, allPositions)
+                    }
+                    else return None
                 }
                 case "D" => {
                     val newSize = size-1
-                    val newCells = new Cell(xPos,yPos) :: cells
-                    createPosition(newSize, xPos,yPos-1, orientation, newCells)
+                    val newCell = new Cell(xPos,yPos)
+                    val acceptedPos = checkPosition(newCell,allPositions)
+                    val newCells = newCell :: cells
+                    if(acceptedPos){
+                        createPosition(newSize, xPos,yPos-1, orientation, newCells, allPositions)
+                    }
+                    else return None
                 }
                 case _ => None
             }
