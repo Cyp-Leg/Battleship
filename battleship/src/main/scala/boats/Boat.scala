@@ -20,13 +20,17 @@ class Boat(size: Int, position: List[Cell], num: Int){
         return this.num
     }
 
-    def isHit(cell: Cell):Boolean = {
+    def getSize():Int = {
+        return this.size
+    }
+
+    def isHit(cell: Cell):Option[Cell] = {
         this.position.foreach{pos =>
             if(pos.getX() == cell.getX() && pos.getY() == cell.getY()){
-                return true
+                return Some(pos)
             }
         }
-        return false
+        return None
     }
 }
 

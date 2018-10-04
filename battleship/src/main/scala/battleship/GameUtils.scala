@@ -8,6 +8,13 @@ object GameUtils{
 
     @tailrec
     def displayGrid(line: Int, col: Int, fleet:List[Boat]): Unit = {
+        if(line==0){
+            print(" " + col + " ")
+            println("")
+        }
+        if(col==0){
+            print(10-line)
+        }
         if(col<10 && line<10){
         var cell:String = ""
             fleet.foreach{boat=>
@@ -30,5 +37,9 @@ object GameUtils{
             val newLine = line+1
             displayGrid(newLine,newCol,fleet)
         }
+    }
+
+    def clearConsole(){
+        print("\033[H\033[2J")
     }
 }
