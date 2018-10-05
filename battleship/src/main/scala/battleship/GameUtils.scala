@@ -35,4 +35,26 @@ object GameUtils{
     def clearConsole(){
         print("\033[H\033[2J")
     }
+
+    def getFullGrid(col: Int, line: Int, cellList: List[Cell]): List[Cell] = {
+        if(col<10 && line<10){
+            val newCell = new Cell(col, line)
+            val newCellList = newCell :: cellList
+            val newCol = col+1
+            getFullGrid(newCol,line,newCellList)
+        }
+        else if(line<10){
+            val newCol = 0
+            val newLine = line+1
+            getFullGrid(newCol, newLine, cellList)
+        }
+        else{
+            return cellList
+        }
+    }
+
+
+    def printList(args: List[_]): Unit = {
+        args.foreach(println)
+    }
 }
