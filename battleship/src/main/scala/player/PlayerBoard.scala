@@ -8,17 +8,19 @@ object PlayerBoard{
     def displayHitBoard(line: Int, col: Int, strikes:List[Cell], missed:List[Cell]): Unit = {
         if(col<10 && line<10){
         var cell:String = ""
+            missed.foreach{miss=>
+                if(miss.getX()==col && miss.getY() == 9-line){
+                    cell = Console.BLUE + " |o| " + Console.RESET
+                }
+            }
+            
             strikes.foreach{strike=>
                 if(strike.getX()==col && strike.getY() == 9-line){
                     cell = Console.RED + " |x| " + Console.RESET
                 }
             }
         
-            missed.foreach{miss=>
-                if(miss.getX()==col && miss.getY() == 9-line){
-                    cell = Console.BLUE + " |o| " + Console.RESET
-                }
-            }
+            
 
 
             if(cell.length==0){

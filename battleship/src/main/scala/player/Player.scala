@@ -2,12 +2,13 @@ package player
 
 import boats._
 import scala.io.StdIn.readLine
+import scala.util.Random
 
-class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: List[Cell]){
+class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: List[Cell], aiLevel: Int = 0){
 
 
-    def createFleet(newFleet: List[Boat], hits: List[Cell], miss: List[Cell]): Player = {
-        return new Player(this.num, this.name, newFleet, hits, miss)
+    def createFleet(newFleet: List[Boat], hits: List[Cell], miss: List[Cell], iaLevel: Int): Player = {
+        return new Player(this.num, this.name, newFleet, hits, miss, iaLevel)
     }
 
     def getNum():Int = {
@@ -20,10 +21,14 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
 
     def getHits(): List[Cell] = {
         return this.hits
-    }
+    }       
 
     def getMiss(): List[Cell] = {
         return this.miss
+    }
+
+    def getAILevel(): Int = {
+        return this.aiLevel
     }
 
     override def toString(): String = {
@@ -52,7 +57,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             }
             
         }
-        if ( (cell.getX()<0) || (cell.getY()<0) || (cell.getX()>10) || (cell.getY()>10)){
+        if ( (cell.getX()<0) || (cell.getY()<0) || (cell.getX()>=10) || (cell.getY()>=10)){
             return false
         }        
         return true
@@ -62,11 +67,18 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         if(boatsNumber<5){
             val shipName = getShipName(size)
             println("Chose the X position of your " + shipName + " (" + size + " cells)")
-            val xPos = getUserInput().toInt
+            val xPos = if(this.aiLevel==0) getUserInput().toInt else Random.nextInt(10)
+
             println("Chose the Y position of your " + shipName + " (" + size + " cells)")
-            val yPos = getUserInput().toInt
+            val yPos = if(this.aiLevel==0) getUserInput().toInt else Random.nextInt(10)
+            
+
             println("Chose the orientation of your " + shipName + " ('L','R','U','D')")
-            val orientation = getUserInput()
+            
+            val orientationList = List("U","D","L","R")
+            val randomIndex = Random.nextInt(orientationList.length)
+
+            val orientation = if(this.aiLevel == 0) getUserInput() else orientationList(randomIndex)
 
             val newPos = createPosition(size, xPos, yPos, orientation, List(), allPositions)
 
@@ -156,9 +168,6 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             boat.isHit(cellHit) match{
                 case None => {
                     println("\n\nFail !\n")
-                    val newMiss = cellHit :: player.getMiss()
-                    val newPlayer = player.createFleet(player.getFleet(), player.getHits(), newMiss)
-                    return player
                 }
                 case Some(x) => {
                     println("\n\nYou hit a boat! \n")
@@ -171,13 +180,13 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
                         val newBoat = new Boat(size,newPos,num)
                         val newFleet = newBoat :: player.getFleet().dropRight((player.getFleet().length)-(player.getFleet.indexOf(boat))) ::: player.getFleet().drop(player.getFleet.indexOf(boat)+1)
                         val newHits = x :: player.getHits()
-                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss())
+                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss(), player.getAILevel())
                         return newPlayer
                     }
                     else{
                         val newFleet = player.getFleet().dropRight((player.getFleet().length)-(player.getFleet.indexOf(boat))) ::: player.getFleet().drop(player.getFleet.indexOf(boat)+1)
                         val newHits = x :: player.getHits()
-                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss())
+                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss(), player.getAILevel())
                         return newPlayer
                     }
                 }
@@ -186,20 +195,22 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         }
         println("\n\nFail !\n")
         val newMiss = cellHit :: player.getMiss()
-        val newPlayer = player.createFleet(player.getFleet(), player.getHits(), newMiss)
-        return player
+
+        val newPlayer = player.createFleet(player.getFleet(), player.getHits(), newMiss, player.getAILevel)
+        return newPlayer
     }
 
 
 
-    def attack(player: Player): Player = {
+    def attack(attacker: Player, attacked: Player): Player = {
         println("\nEnter the X position of your attack")
-        val xPos = getUserInput.toInt
+        val xPos = if(attacker.getAILevel()==0) getUserInput.toInt 
+        else Random.nextInt(10)
         println("\nEnter the Y position of your attack")
-        val yPos = getUserInput.toInt
+        val yPos = if(attacker.getAILevel()==0) getUserInput.toInt else Random.nextInt(10)
 
         val cellAttacked = new Cell(xPos, yPos)
-        checkBoatsHits(player, cellAttacked)
+        checkBoatsHits(attacked, cellAttacked)
     }
 }
 

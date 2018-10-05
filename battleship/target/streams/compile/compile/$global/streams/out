@@ -1,2 +1,11 @@
-[0m[[0m[33mwarn[0m] [0m[0mthere were two deprecation warnings (since 2.11.0); re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:50:31: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : boats.Cell[0m
+[0m[[0m[31merror[0m] [0m[0m required: List[_][0m
+[0m[[0m[31merror[0m] [0m[0m                    printList(pos)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:80:31: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : boats.Cell[0m
+[0m[[0m[31merror[0m] [0m[0m required: List[_][0m
+[0m[[0m[31merror[0m] [0m[0m                    printList(pos)[0m
+[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
