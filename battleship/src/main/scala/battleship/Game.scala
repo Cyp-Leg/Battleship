@@ -17,7 +17,7 @@ object Game extends App{
     def initiateGame(): Unit = {
     
         val player1 = new Player(1, "Player 1", Nil, Nil, Nil,1)
-        val player2 = new Player(2,"Player 2", Nil, Nil, Nil,1)
+        val player2 = new Player(2,"Player 2", Nil, Nil, Nil,2)
 
 
         println("\nPlayer 1 \n")
@@ -27,7 +27,7 @@ object Game extends App{
 
 
         val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,1)
-        val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,1)
+        val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,2)
 
         
 
@@ -41,23 +41,18 @@ object Game extends App{
 
             //GameUtils.clearConsole()
             println("Player 1, your turn!")
+            println(player1.getAILevel())
 
-            println("\nYour fleet : \n")
-            GameUtils.displayGrid(0,0, player1.getFleet())
+           // println("\nYour fleet : \n")
+            //GameUtils.displayGrid(0,0, player1.getFleet())
 
-            player1.getFleet.foreach{boat=>
-                boat.getPosition().foreach{pos=>
-                    println(pos)
-                }
-            }
-
-            println("\nYour hit board : \n")
-            PlayerBoard.displayHitBoard(0,0,player2.getHits(), player2.getMiss())
+           // println("\nYour hit board : \n")
+            //PlayerBoard.displayHitBoard(0,0,player2.getHits(), player2.getMiss())
 
             val newPlayer2 = player1.attack(player1,player2)
 
+            //Thread.sleep(100)
             if(newPlayer2.getFleet().length!=0){
-                println(newPlayer2.getFleet().length)
                 play(player1, newPlayer2, 2)
             }
             else{
@@ -70,18 +65,14 @@ object Game extends App{
 
             //GameUtils.clearConsole()
             println("Player 2, your turn!")
+            println(player2.getAILevel())
 
-            println("\nYour fleet : \n")            
-            GameUtils.displayGrid(0,0, player2.getFleet())
+           // println("\nYour fleet : \n")            
+            //GameUtils.displayGrid(0,0, player2.getFleet())
 
-            player2.getFleet.foreach{boat=>
-                boat.getPosition().foreach{pos=>
-                    println(pos)
-                }
-            }
 
-            println("\nYour hit board : \n")
-            PlayerBoard.displayHitBoard(0,0,player1.getHits(), player1.getMiss())
+           // println("\nYour hit board : \n")
+            //PlayerBoard.displayHitBoard(0,0,player1.getHits(), player1.getMiss())
 
             val newPlayer1 = player2.attack(player2,player1)
 
@@ -97,10 +88,22 @@ object Game extends App{
     }
 
 
+    def launchTests(acc: Int): Unit={
+        if(acc==0){
+            println("Game over !")
+        }
+        else{
+            initiateGame()
+            val newAcc = acc-1
+            launchTests(newAcc)
+        }
+    }
+
+    launchTests(10000)
     var x=0
-    for(x <- 1 to 100){
-        initiateGame()
-    } 
+   // for(x <- 1 to 100){
+      //  initiateGame()
+   // } 
 
     println("Player 1 won " + p1win)
     println("Player 2 won " +p2win)

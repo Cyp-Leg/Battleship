@@ -167,10 +167,9 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         player.getFleet().foreach{boat=>
             boat.isHit(cellHit) match{
                 case None => {
-                    println("\n\nFail !\n")
                 }
                 case Some(x) => {
-                    println("\n\nYou hit a boat! \n")
+                    //println("\n\nYou hit a boat! \n")
                     
                     val newPos = boat.getPosition().dropRight((boat.getPosition().length)-(boat.getPosition().indexOf(x))) ::: boat.getPosition().drop(boat.getPosition().indexOf(x)+1)
                     
@@ -193,7 +192,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
 
             }
         }
-        println("\n\nFail !\n")
+        //println("\n\nFail !\n")
         val newMiss = cellHit :: player.getMiss()
 
         val newPlayer = player.createFleet(player.getFleet(), player.getHits(), newMiss, player.getAILevel)
@@ -201,16 +200,30 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
     }
 
 
+    def checkAttackedPos(attacker: Player, attacked: Player, cellAttacked: Cell): Boolean = {
+        val shotCells = attacked.getMiss() ::: attacked.getHits()
+            
+        shotCells.foreach{checkCell=>
+            if(checkCell.getX()==cellAttacked.getX() && checkCell.getY() == cellAttacked.getY()){
+                return false
+            }
+        }
+        return true
+    }
 
     def attack(attacker: Player, attacked: Player): Player = {
-        println("\nEnter the X position of your attack")
+        //println("\nEnter the X position of your attack")
         val xPos = if(attacker.getAILevel()==0) getUserInput.toInt 
         else Random.nextInt(10)
-        println("\nEnter the Y position of your attack")
+        //println("\nEnter the Y position of your attack")
         val yPos = if(attacker.getAILevel()==0) getUserInput.toInt else Random.nextInt(10)
 
+        
         val cellAttacked = new Cell(xPos, yPos)
-        checkBoatsHits(attacked, cellAttacked)
+        if(attacker.getAILevel()>=2 && !checkAttackedPos(attacker,attacked,cellAttacked)){
+            attack(attacker,attacked)
+        }    
+        else checkBoatsHits(attacked, cellAttacked)
     }
 }
 

@@ -1,11 +1,4 @@
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:50:31: type mismatch;[0m
-[0m[[0m[31merror[0m] [0m[0m found   : boats.Cell[0m
-[0m[[0m[31merror[0m] [0m[0m required: List[_][0m
-[0m[[0m[31merror[0m] [0m[0m                    printList(pos)[0m
-[0m[[0m[31merror[0m] [0m[0m                              ^[0m
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:80:31: type mismatch;[0m
-[0m[[0m[31merror[0m] [0m[0m found   : boats.Cell[0m
-[0m[[0m[31merror[0m] [0m[0m required: List[_][0m
-[0m[[0m[31merror[0m] [0m[0m                    printList(pos)[0m
-[0m[[0m[31merror[0m] [0m[0m                              ^[0m
-[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:224:38: too many arguments (3) for method attack: (attacker: player.Player, attacked: player.Player)player.Player[0m
+[0m[[0m[31merror[0m] [0m[0m            attack(attacker,attacked,cellAttacked)[0m
+[0m[[0m[31merror[0m] [0m[0m                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
