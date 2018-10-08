@@ -47,10 +47,6 @@ run
 compile
 run
 compile
-run
-compile
-run
-compile
 ru
 run
 1
@@ -497,4 +493,8 @@ run
 compile
 run
 0
+run
+compile
+run
+compile
 run

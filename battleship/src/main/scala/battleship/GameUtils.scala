@@ -12,6 +12,15 @@ object GameUtils{
     def getUserInput(): String = readLine.trim.toUpperCase
 
 
+    def endGame(p1wins: Int, p2wins: Int){
+        println("End of the game !")
+        println("Player 1 : "+p1wins+" wins")
+        println("Player 2 : "+p2wins+" wins")
+    }
+    def gameOver(playerNum: Int): Unit = {
+        println("Player "+playerNum+"'s fleet has been sunk. Good job!")
+    }
+
     def displayXPosition(playerNum: Int, shipName: String, size: Int):Unit = {
         println("Player "+playerNum+ ", chose the X position of your " + shipName + " (" + size + " cells)")
     }

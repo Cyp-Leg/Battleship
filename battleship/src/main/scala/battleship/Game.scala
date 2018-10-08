@@ -5,12 +5,11 @@ import boats._
 import player._
 import battleship._
 import scala.annotation.tailrec
+import java.io._
 
 
 object Game extends App{
 
-    var p1win: Int=0
-    var p2win: Int=0
 
     def printList(args: List[_]): Unit = {
         args.foreach(println)
@@ -31,13 +30,6 @@ object Game extends App{
         println("(3) Level 3 (Hard)")
     }
 
-    def displayTestChoice():Unit = {
-        println("Please chose the level of your second AI")
-        println("(1) Level 1 (Easy)")
-        println("(2) Level 2 (Medium)")
-        println("(3) Level 3 (Hard)")
-    }
-
     @tailrec
     def getMenuChoice():List[Int] = {
         displayMenu()
@@ -45,14 +37,10 @@ object Game extends App{
         if(userChoice==2){
             displayAIChoice()
             val aiChoice = GameUtils.getUserInput().toInt
-            return List(userChoice,aiChoice,0)
+            return List(userChoice,0,aiChoice)
         }
         else if(userChoice==3){
-            displayAIChoice()
-            val aiChoice = GameUtils.getUserInput().toInt
-            displayTestChoice()
-            val testChoice = GameUtils.getUserInput().toInt
-            return List(userChoice,aiChoice,testChoice)
+            return List(userChoice,0,0)
         }
         else if(userChoice==1){
             return List(userChoice,0,0)
@@ -63,11 +51,14 @@ object Game extends App{
         }
     }
 
-    def initiateGame(menuChoice: List[Int]): Unit = {
-
-        if(menuChoice(0)!=3){
+    def initiateGame(menuChoice: List[Int], gameState: GameState): Unit = {
+        
+        if(gameState.gamesNb==0){
+            GameUtils.endGame(gameState.p1wins, gameState.p2wins)
+        }
+        else if(gameState.gamesNb>0){
             val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, menuChoice(1))
-            val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, menuChoice(1))
+            val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, menuChoice(2))
 
 
             val boatsPlayer1 = player1.getBoats(List(),0,5,List())
@@ -75,18 +66,16 @@ object Game extends App{
 
 
             val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,null, menuChoice(1))
-            val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, menuChoice(1))
+            val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, menuChoice(2))
 
-            
-
-            play(newPlayer1,newPlayer2)
+            play(newPlayer1,newPlayer2, gameState, menuChoice)
         }
-
     }
 
-    def play(player1: Player, player2: Player, begin: Int=1):Unit = {
-        val g = GameState(0,1)
-        if(begin==1){
+
+    def play(player1: Player, player2: Player,gameState: GameState, menuChoice: List[Int]):Unit = {
+        
+        if(gameState.playerTurn==1){
             if(player1.getAILevel()==0){
                 GameUtils.clearConsole()
                 println("Player 1, your turn!")
@@ -101,16 +90,28 @@ object Game extends App{
             val newPlayer2 = player1.attack(player1,player2)
 
             if(newPlayer2.getFleet().length!=0){
-                play(player1, newPlayer2, 2)
+                val newRound = gameState.round+1
+                val newTurn = if(gameState.playerTurn==1) 2 else 1
+                val newGameState = new GameState(newRound, newTurn, gameState.p1wins, gameState.p2wins, gameState.startingPlayer, gameState.gamesNb)
+
+                play(player1, newPlayer2, newGameState, menuChoice)
             }
             else{
-           //     println("Player 2's fleet has been sunk. Good job!")
-                p1win = p1win+1
+                if(player1.getAILevel==0){
+                    GameUtils.gameOver(player2.getNum())
+                }
+                val newRound = gameState.round+1
+                val newStarting = if(gameState.startingPlayer==1) 2 else 1
+                val p1wins = gameState.p1wins+1
+                val newGameNb = gameState.gamesNb-1
+                val newGameState = new GameState(0, newStarting, p1wins, gameState.p2wins, newStarting, newGameNb)
+                initiateGame(menuChoice, newGameState)
             }
 
         }
         else{
-            
+        
+
             if(player2.getAILevel()==0){
                 GameUtils.clearConsole()
                 println("Player 2, your turn!")
@@ -127,33 +128,97 @@ object Game extends App{
 
 
             if(newPlayer1.getFleet().length!=0){
-                play(newPlayer1, player2, 1)
+                
+                val newRound = gameState.round+1
+                val newTurn = if(gameState.playerTurn==1) 2 else 1
+                val newGameState = new GameState(newRound, newTurn, gameState.p1wins, gameState.p2wins, gameState.startingPlayer, gameState.gamesNb)
+
+                play(newPlayer1, player2, newGameState, menuChoice)
             }
             else{
-            //    println("Player 1's fleet has been sunk. Good job!")
-                p2win = p2win+1
+                if(player2.getAILevel==0){
+                    GameUtils.gameOver(player1.getNum())
+                }
+                val newRound = gameState.round+1
+                val newStarting = if(gameState.startingPlayer==1) 2 else 1
+                val p2wins = gameState.p2wins+1
+                val newGameNb = gameState.gamesNb-1
+                val newGameState = new GameState(newRound, newStarting, gameState.p1wins, p2wins, newStarting, newGameNb)
+                initiateGame(menuChoice, newGameState)
+
             }
         }
-
     }
 
-
-    def launchTests(acc: Int): Unit={
+    def launch(): Unit={
         val choice = getMenuChoice()
-        if(acc==0){
-            println("Game over !")
+        val gameState = if(choice(0)==3){
+            new GameState(0,1,0,0,0,100)
         }
-        else{
-            initiateGame(choice)
-            val newAcc = acc-1
-            launchTests(newAcc)
+        else new GameState(0,1,0,0,0,1)
+        
+        if(choice(0)!=3){
+            initiateGame(choice, gameState)
+        }
+        if(choice(0)==3){
+            val content = "IA Name; score; IA Name2; score2"
+            writeToFile("/home/cyp/ai_proof.csv",content)
+            val secGameState = new GameState(0,1,0,0,0,100)
+            val secChoice = List(3,3,1) // Choice 3, IA1 level 3, IA2 level 1
+            println("IA 1 Level : 3")
+            println("IA 2 Level : 1")
+            initiateGame(secChoice, secGameState)
+        }
+        if(choice(0)==3){
+            val thirdGameState = new GameState(0,1,0,0,0,100)
+            val thirdChoice = List(3,3,2)
+            println("IA 1 Level : 3")
+            println("IA 2 Level : 2")
+            initiateGame(thirdChoice, thirdGameState)
+        }
+        if(choice(0)==3){
+            val fourthGameState = new GameState(0,1,0,0,0,100)
+            val fourthChoice = List(3,3,3)
+            println("IA 1 Level : 3")
+            println("IA 2 Level : 3")
+            initiateGame(fourthChoice, fourthGameState)
+        }
+        if(choice(0)==3){
+            val fifthGameState = new GameState(0,1,0,0,0,100)
+            val fifthChoice = List(3,2,1)
+            println("IA 1 Level : 2")
+            println("IA 2 Level : 1")
+            initiateGame(fifthChoice,  fifthGameState)
+        }
+        if(choice(0)==3){
+            val sixthGameState = new GameState(0,1,0,0,0,100)
+            val sixthChoice = List(3,2,2)
+            println("IA 1 Level : 2")
+            println("IA 2 Level : 2")
+            initiateGame(sixthChoice,  sixthGameState)
+        }
+        if(choice(0)==3){
+            val sevGameState = new GameState(0,1,0,0,0,100)
+            val sevChoice = List(3,1,1)
+            println("IA 1 Level : 1")
+            println("IA 2 Level : 1")
+            initiateGame(sevChoice, sevGameState)
         }
     }
 
+    /**
+      * Function that write into a file the content put as parameters
+      * @param location: String: name and location of the file on the computer
+      * @param content: String: Content to write into the file
+      */
+    def writeToFile(location: String, content: String): Unit = {
+        val bw = new BufferedWriter(new FileWriter(location))
+        bw.write(content)
+        bw.flush()
+        bw.close()
+    }
 
-    launchTests(1000)
+    launch()
 
-    println("Player 1 won " + p1win)
-    println("Player 2 won " +p2win)
 
 }

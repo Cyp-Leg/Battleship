@@ -1,2 +1,7 @@
-[0m[[0m[33mwarn[0m] [0m[0mthere were two deprecation warnings (since 2.11.0); re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:214:22: not found: type BufferedWriter[0m
+[0m[[0m[31merror[0m] [0m[0m        val bw = new BufferedWriter(new FileWriter(location))[0m
+[0m[[0m[31merror[0m] [0m[0m                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:214:41: not found: type FileWriter[0m
+[0m[[0m[31merror[0m] [0m[0m        val bw = new BufferedWriter(new FileWriter(location))[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
