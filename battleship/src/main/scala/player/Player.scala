@@ -4,7 +4,6 @@ import boats._
 import scala.annotation.tailrec
 
 import battleship._
-import scala.io.StdIn.readLine
 import scala.util.Random
 
 class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: List[Cell], lastHit: Cell, aiLevel: Int = 0){
@@ -42,7 +41,6 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return this.name + ", num " + this.num + ", boats : \n" + this.fleet
     }
 
-    def getUserInput(): String = readLine.trim.toUpperCase
 
     def printList(args: List[_]): Unit = {
         args.foreach(println)
@@ -73,19 +71,25 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
     def getBoats(boatsList: List[Boat],boatsNumber: Int, size: Int, allPositions:List[Cell]): List[Boat] = {
         if(boatsNumber<5){
             val shipName = getShipName(size)
-            //println("Chose the X position of your " + shipName + " (" + size + " cells)")
-            val xPos = if(this.aiLevel==0) getUserInput().toInt else Random.nextInt(10)
+            if(this.aiLevel==0){
+                GameUtils.displayXPosition(this.num, shipName, size)
+            }
+            val xPos = if(this.aiLevel==0) GameUtils.getUserInput().toInt else Random.nextInt(10)
 
-            //println("Chose the Y position of your " + shipName + " (" + size + " cells)")
-            val yPos = if(this.aiLevel==0) getUserInput().toInt else Random.nextInt(10)
+            if(this.aiLevel==0){
+                GameUtils.displayXPosition(this.num, shipName, size)
+            }
+            val yPos = if(this.aiLevel==0) GameUtils.getUserInput().toInt else Random.nextInt(10)
             
 
-            //println("Chose the orientation of your " + shipName + " ('L','R','U','D')")
+            if(this.aiLevel==0){
+                GameUtils.displayOrientation(this.num, shipName)
+            }
             
             val orientationList = List("U","D","L","R")
             val randomIndex = Random.nextInt(orientationList.length)
 
-            val orientation = if(this.aiLevel == 0) getUserInput() else orientationList(randomIndex)
+            val orientation = if(this.aiLevel == 0) GameUtils.getUserInput() else orientationList(randomIndex)
 
             val newPos = createPosition(size, xPos, yPos, orientation, List(), allPositions)
 
@@ -171,7 +175,6 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
     }
 
     def checkBoatsHits(player: Player, cellHit: Cell): Player = {
-       // println("Testing " + cellHit)
         player.getFleet().foreach{boat=>
             boat.isHit(cellHit) match{
                 case None => {
@@ -303,7 +306,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         
         
         val xPos = if(attacker.getAILevel()==0){
-            getUserInput.toInt
+            GameUtils.getUserInput.toInt
         }
         else{
             Random.nextInt(10)
@@ -312,7 +315,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         if(attacker.getAILevel() == 0){
             println("\nEnter the Y position of your attack")
         }        
-        val yPos = if(attacker.getAILevel()==0) getUserInput.toInt else Random.nextInt(10)
+        val yPos = if(attacker.getAILevel()==0) GameUtils.getUserInput.toInt else Random.nextInt(10)
 
         
         val cellAttacked = new Cell(xPos, yPos)

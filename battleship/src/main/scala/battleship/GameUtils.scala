@@ -3,8 +3,27 @@ package battleship
 import scala.collection.immutable
 import boats._
 import scala.annotation.tailrec
+import scala.io.StdIn.readLine
+
 
 object GameUtils{
+
+
+    def getUserInput(): String = readLine.trim.toUpperCase
+
+
+    def displayXPosition(playerNum: Int, shipName: String, size: Int):Unit = {
+        println("Player "+playerNum+ ", chose the X position of your " + shipName + " (" + size + " cells)")
+    }
+
+                
+    def displayYPosition(playerNum: Int, shipName: String, size: Int):Unit = {
+        println("Player "+playerNum+ ", chose the Y position of your " + shipName + " (" + size + " cells)")
+    }
+
+    def displayOrientation(playerNum: Int, shipName: String):Unit = {
+    println("Player "+playerNum+", chose the orientation of your " + shipName + " ('L','R','U','D')")
+    }
 
     @tailrec
     def displayGrid(line: Int, col: Int, fleet:List[Boat]): Unit = {

@@ -1,7 +1,2 @@
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:196:44: ';' expected but '.' found.[0m
-[0m[[0m[31merror[0m] [0m[0m                        printList newPlayer.getHits()[0m
-[0m[[0m[31merror[0m] [0m[0m                                           ^[0m
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:208:44: ';' expected but '.' found.[0m
-[0m[[0m[31merror[0m] [0m[0m                        printList newPlayer.getHits()[0m
-[0m[[0m[31merror[0m] [0m[0m                                           ^[0m
-[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere were two deprecation warnings (since 2.11.0); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

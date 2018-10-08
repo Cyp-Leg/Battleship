@@ -3,6 +3,9 @@ package battleship
 import scala.collection.immutable
 import boats._
 import player._
+import battleship._
+import scala.annotation.tailrec
+
 
 object Game extends App{
 
@@ -13,25 +16,71 @@ object Game extends App{
         args.foreach(println)
     }
 
+    def displayMenu():Unit = {
+        println("Welcome to the Battleship game.")
+        println("Please chose your game mode : ")
+        println("(1) Player Versus Player")
+        println("(2) Player Versus AI")
+        println("(3) AI performance test (generates a CSV file)")
+    }
 
-    def initiateGame(): Unit = {
-    
-        val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, 2)
-        val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, 3)
+    def displayAIChoice():Unit = {
+        println("Please chose the level of your AI")
+        println("(1) Level 1 (Easy)")
+        println("(2) Level 2 (Medium)")
+        println("(3) Level 3 (Hard)")
+    }
+
+    def displayTestChoice():Unit = {
+        println("Please chose the level of your second AI")
+        println("(1) Level 1 (Easy)")
+        println("(2) Level 2 (Medium)")
+        println("(3) Level 3 (Hard)")
+    }
+
+    @tailrec
+    def getMenuChoice():List[Int] = {
+        displayMenu()
+        val userChoice = GameUtils.getUserInput().toInt
+        if(userChoice==2){
+            displayAIChoice()
+            val aiChoice = GameUtils.getUserInput().toInt
+            return List(userChoice,aiChoice,0)
+        }
+        else if(userChoice==3){
+            displayAIChoice()
+            val aiChoice = GameUtils.getUserInput().toInt
+            displayTestChoice()
+            val testChoice = GameUtils.getUserInput().toInt
+            return List(userChoice,aiChoice,testChoice)
+        }
+        else if(userChoice==1){
+            return List(userChoice,0,0)
+        }
+        else{
+            println("Wrong input !")
+            getMenuChoice()
+        }
+    }
+
+    def initiateGame(menuChoice: List[Int]): Unit = {
+
+        if(menuChoice(0)!=3){
+            val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, menuChoice(1))
+            val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, menuChoice(1))
 
 
-       // println("\nPlayer 1 \n")
-        val boatsPlayer1 = player1.getBoats(List(),0,5,List())
-       // println("\nPlayer 2 \n")
-        val boatsPlayer2 = player2.getBoats(List(),0,5,List())
+            val boatsPlayer1 = player1.getBoats(List(),0,5,List())
+            val boatsPlayer2 = player2.getBoats(List(),0,5,List())
 
 
-        val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,null, 2)
-        val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, 3)
+            val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,null, menuChoice(1))
+            val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, menuChoice(1))
 
-        
+            
 
-        play(newPlayer1,newPlayer2)
+            play(newPlayer1,newPlayer2)
+        }
 
     }
 
@@ -90,11 +139,12 @@ object Game extends App{
 
 
     def launchTests(acc: Int): Unit={
+        val choice = getMenuChoice()
         if(acc==0){
             println("Game over !")
         }
         else{
-            initiateGame()
+            initiateGame(choice)
             val newAcc = acc-1
             launchTests(newAcc)
         }
