@@ -5,12 +5,36 @@ import boats._
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 import java.io._
-
+import java.lang._
 
 object GameUtils{
 
 
-    def getUserInput(): String = readLine.trim.toUpperCase
+    def getStringInput(): String = {
+        try {
+            val userInput = readLine.trim.toUpperCase()
+            return userInput
+        }
+        catch {
+            case e: Exception => {
+                println("Please enter a letter!")
+                getStringInput()
+            }
+        }
+    }
+
+    def getIntInput(): Int = {
+        try {
+            val userInput = scala.io.StdIn.readInt()
+            return userInput
+        }
+        catch {
+            case e: NumberFormatException => {
+                println("Please enter a number!")
+                getIntInput()
+            }
+        }
+    }
 
     /**
       * Function that appends at the end of a file the content put as parameters
@@ -36,10 +60,10 @@ object GameUtils{
         bw.close()
     }
 
-    def endGame(p1wins: Int, p2wins: Int, chosenMode: List[Int]){
+    def endGame(p1wins: Int, p2wins: Int, chosenMode: List[Int]): Unit = {
         println("End of the game !")
-        println("Player 1 : "+p1wins+" wins")
-        println("Player 2 : "+p2wins+" wins")
+        println("Player 1 : "+p1wins+" win(s)")
+        println("Player 2 : "+p2wins+" win(s)")
         if(chosenMode(0)==3){
             val firstAIName = if(chosenMode(1)==1){
             "Level Beginner"
@@ -57,12 +81,19 @@ object GameUtils{
             else "Level Hard"
             appendToFile("ai_proof.csv",firstAIName + ";" + p1wins + ";" + secondAIName + ";" + p2wins)
         }
-
-
+        println("Do you want to start an other game?")
+        println("(1) Yes")
+        println("(Other) No")
     }
+
+    def endGame(): Unit = {
+        println("Good bye!")
+    }
+    
     def gameOver(playerNum: Int): Unit = {
         println("Player "+playerNum+"'s fleet has been sunk. Good job!")
     }
+
 
     def displayXPosition(playerNum: Int, shipName: String, size: Int):Unit = {
         println("Player "+playerNum+ ", chose the X position of your " + shipName + " (" + size + " cells)")
@@ -128,4 +159,6 @@ object GameUtils{
     def printList(args: List[_]): Unit = {
         args.foreach(println)
     }
+
+
 }

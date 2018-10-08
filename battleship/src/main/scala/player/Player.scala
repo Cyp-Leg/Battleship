@@ -74,12 +74,12 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             if(this.aiLevel==0){
                 GameUtils.displayXPosition(this.num, shipName, size)
             }
-            val xPos = if(this.aiLevel==0) GameUtils.getUserInput().toInt else Random.nextInt(10)
+            val xPos = if(this.aiLevel==0) GameUtils.getIntInput() else Random.nextInt(10)
 
             if(this.aiLevel==0){
                 GameUtils.displayXPosition(this.num, shipName, size)
             }
-            val yPos = if(this.aiLevel==0) GameUtils.getUserInput().toInt else Random.nextInt(10)
+            val yPos = if(this.aiLevel==0) GameUtils.getIntInput().toInt else Random.nextInt(10)
             
 
             if(this.aiLevel==0){
@@ -89,15 +89,16 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             val orientationList = List("U","D","L","R")
             val randomIndex = Random.nextInt(orientationList.length)
 
-            val orientation = if(this.aiLevel == 0) GameUtils.getUserInput() else orientationList(randomIndex)
+            val orientation = if(this.aiLevel == 0) GameUtils.getStringInput() else orientationList(randomIndex)
 
             val newPos = createPosition(size, xPos, yPos, orientation, List(), allPositions)
 
 
             if(newPos == None){
-                //println("\n\nERROR : Position out of game or already occupied. Please chose an other position\n\n")
+                if(this.aiLevel==0){
+                    println("\n\nERROR : Position out of game or already occupied. Please chose an other position\n\n")
+                }
                 getBoats(boatsList, boatsNumber, size, allPositions)
-
             }
             else{
                 val newAllPositions = newPos.get ::: allPositions
@@ -306,7 +307,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         
         
         val xPos = if(attacker.getAILevel()==0){
-            GameUtils.getUserInput.toInt
+            GameUtils.getIntInput()
         }
         else{
             Random.nextInt(10)
@@ -315,7 +316,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         if(attacker.getAILevel() == 0){
             println("\nEnter the Y position of your attack")
         }        
-        val yPos = if(attacker.getAILevel()==0) GameUtils.getUserInput.toInt else Random.nextInt(10)
+        val yPos = if(attacker.getAILevel()==0) GameUtils.getIntInput else Random.nextInt(10)
 
         
         val cellAttacked = new Cell(xPos, yPos)

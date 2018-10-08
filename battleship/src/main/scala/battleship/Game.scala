@@ -20,6 +20,7 @@ object Game extends App{
         println("(1) Player Versus Player")
         println("(2) Player Versus AI")
         println("(3) AI performance test (generates a CSV file)")
+        println("(4) Quit the game")
     }
 
     def displayAIChoice():Unit = {
@@ -27,15 +28,22 @@ object Game extends App{
         println("(1) Level 1 (Easy)")
         println("(2) Level 2 (Medium)")
         println("(3) Level 3 (Hard)")
+        println("(4) Quit the game")
     }
 
     @tailrec
     def getMenuChoice():List[Int] = {
         displayMenu()
-        val userChoice = GameUtils.getUserInput().toInt
+        val userChoice = GameUtils.getIntInput()
+        if(userChoice==4){
+            return List(userChoice,0,0)
+        }
         if(userChoice==2){
             displayAIChoice()
-            val aiChoice = GameUtils.getUserInput().toInt
+            val aiChoice = GameUtils.getIntInput()
+            if(aiChoice==4){
+                return List(aiChoice,0,0)
+            }
             return List(userChoice,0,aiChoice)
         }
         else if(userChoice==3){
@@ -51,23 +59,32 @@ object Game extends App{
     }
 
     def initiateGame(menuChoice: List[Int], gameState: GameState): Unit = {
-        
-        if(gameState.gamesNb==0){
-            GameUtils.endGame(gameState.p1wins, gameState.p2wins, menuChoice)
+        if(menuChoice(0)==4){
+            GameUtils.endGame()
         }
-        else if(gameState.gamesNb>0){
-            val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, menuChoice(1))
-            val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, menuChoice(2))
+        else{
+            if(gameState.gamesNb==0){
+                GameUtils.endGame(gameState.p1wins, gameState.p2wins, menuChoice)
+                val choice = GameUtils.getIntInput()
+                if(choice==1){
+                    launch()
+                }
+                else GameUtils.endGame()
+            }
+            else if(gameState.gamesNb>0){
+                val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, menuChoice(1))
+                val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, menuChoice(2))
 
 
-            val boatsPlayer1 = player1.getBoats(List(),0,5,List())
-            val boatsPlayer2 = player2.getBoats(List(),0,5,List())
+                val boatsPlayer1 = player1.getBoats(List(),0,5,List())
+                val boatsPlayer2 = player2.getBoats(List(),0,5,List())
 
 
-            val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,null, menuChoice(1))
-            val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, menuChoice(2))
+                val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,null, menuChoice(1))
+                val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, menuChoice(2))
 
-            play(newPlayer1,newPlayer2, gameState, menuChoice)
+                play(newPlayer1,newPlayer2, gameState, menuChoice)
+            }
         }
     }
 
