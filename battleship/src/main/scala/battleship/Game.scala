@@ -16,8 +16,8 @@ object Game extends App{
 
     def initiateGame(): Unit = {
     
-        val player1 = new Player(1, "Player 1", Nil, Nil, Nil,2)
-        val player2 = new Player(2,"Player 2", Nil, Nil, Nil,1)
+        val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, 2)
+        val player2 = new Player(2,"Player 2", Nil, Nil, Nil, null, 3)
 
 
        // println("\nPlayer 1 \n")
@@ -26,8 +26,8 @@ object Game extends App{
         val boatsPlayer2 = player2.getBoats(List(),0,5,List())
 
 
-        val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,2)
-        val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,1)
+        val newPlayer1 = player1.createFleet(boatsPlayer1, Nil, Nil,null, 2)
+        val newPlayer2 = player2.createFleet(boatsPlayer2, Nil, Nil,null, 3)
 
         
 
@@ -39,9 +39,9 @@ object Game extends App{
         val g = GameState(0,1)
         if(begin==1){
 
-            /*GameUtils.clearConsole()
+            GameUtils.clearConsole()
             println("Player 1, your turn!")
-            println(player1.getAILevel())
+          /*  println(player1.getAILevel())
 
             println("\nYour fleet : \n")
             GameUtils.displayGrid(0,0, player1.getFleet())
@@ -51,7 +51,7 @@ object Game extends App{
 
             val newPlayer2 = player1.attack(player1,player2)
 
-           // Thread.sleep(1000)
+            //Thread.sleep(100)
             if(newPlayer2.getFleet().length!=0){
                 play(player1, newPlayer2, 2)
             }
@@ -63,9 +63,9 @@ object Game extends App{
         }
         else{
 
-            /*GameUtils.clearConsole()
+            GameUtils.clearConsole()
             println("Player 2, your turn!")
-            println(player2.getAILevel())
+         /*   println(player2.getAILevel())
 
             println("\nYour fleet : \n")            
             GameUtils.displayGrid(0,0, player2.getFleet())
@@ -76,7 +76,8 @@ object Game extends App{
 
             val newPlayer1 = player2.attack(player2,player1)
 
-           // Thread.sleep(1000)
+            //Thread.sleep(100)
+
             if(newPlayer1.getFleet().length!=0){
                 play(newPlayer1, player2, 1)
             }
@@ -95,13 +96,14 @@ object Game extends App{
         }
         else{
             initiateGame()
+            println("New game!")
             val newAcc = acc-1
             launchTests(newAcc)
         }
     }
 
 
-    launchTests(1000)
+    launchTests(10)
 
     println("Player 1 won " + p1win)
     println("Player 2 won " +p2win)

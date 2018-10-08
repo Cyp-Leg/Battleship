@@ -1,15 +1,17 @@
 package player
 
 import boats._
+import scala.annotation.tailrec
+
 import battleship._
 import scala.io.StdIn.readLine
 import scala.util.Random
 
-class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: List[Cell], aiLevel: Int = 0){
+class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: List[Cell], lastHit: Cell, aiLevel: Int = 0){
 
 
-    def createFleet(newFleet: List[Boat], hits: List[Cell], miss: List[Cell], iaLevel: Int): Player = {
-        return new Player(this.num, this.name, newFleet, hits, miss, iaLevel)
+    def createFleet(newFleet: List[Boat], hits: List[Cell], miss: List[Cell], lastHit: Cell, iaLevel: Int): Player = {
+        return new Player(this.num, this.name, newFleet, hits, miss, lastHit, iaLevel)
     }
 
     def getNum():Int = {
@@ -18,6 +20,10 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
 
     def getFleet(): List[Boat] = {
         return this.fleet
+    }
+
+    def getLastHit(): Cell = {
+        return this.lastHit
     }
 
     def getHits(): List[Cell] = {
@@ -165,12 +171,13 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
     }
 
     def checkBoatsHits(player: Player, cellHit: Cell): Player = {
+       // println("Testing " + cellHit)
         player.getFleet().foreach{boat=>
             boat.isHit(cellHit) match{
                 case None => {
                 }
                 case Some(x) => {
-                    //println("\n\nYou hit a boat! \n")
+                    println("\n\nYou hit a boat! \n")
                     
                     val newPos = boat.getPosition().dropRight((boat.getPosition().length)-(boat.getPosition().indexOf(x))) ::: boat.getPosition().drop(boat.getPosition().indexOf(x)+1)
                     
@@ -179,14 +186,24 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
                     if(newPos.length!=0){
                         val newBoat = new Boat(size,newPos,num)
                         val newFleet = newBoat :: player.getFleet().dropRight((player.getFleet().length)-(player.getFleet.indexOf(boat))) ::: player.getFleet().drop(player.getFleet.indexOf(boat)+1)
-                        val newHits = new Cell(x.getX(),x.getY(),true) :: player.getHits()
-                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss(), player.getAILevel())
+                        val cellHit = new Cell(x.getX(),x.getY(),true)
+                        val newHits = cellHit :: player.getHits()
+
+                        println("Adding " + cellHit + " to hit list")
+                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss(), cellHit, player.getAILevel())
+                        println(newPlayer.getLastHit())
                         return newPlayer
                     }
                     else{
                         val newFleet = player.getFleet().dropRight((player.getFleet().length)-(player.getFleet.indexOf(boat))) ::: player.getFleet().drop(player.getFleet.indexOf(boat)+1)
-                        val newHits = x :: player.getHits()
-                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss(), player.getAILevel())
+                        val cellHit = new Cell(x.getX(),x.getY(),true)
+
+                        val newHits = cellHit :: player.getHits()
+
+                        println("Adding " + x + " to hit list")
+
+                        val newPlayer = player.createFleet(newFleet, newHits, player.getMiss(), cellHit, player.getAILevel())
+                        println(newPlayer.getLastHit())
                         return newPlayer
                     }
                 }
@@ -195,13 +212,18 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         }
         //println("\n\nFail !\n")
         val newMiss = cellHit :: player.getMiss()
+        println("Adding " + cellHit + " to miss list")
 
-        val newPlayer = player.createFleet(player.getFleet(), player.getHits(), newMiss, player.getAILevel)
+        val newPlayer = player.createFleet(player.getFleet(), player.getHits(), newMiss, player.getLastHit(), player.getAILevel)
         return newPlayer
     }
 
     def compareCells(cell1: Cell, cell2: Cell): Boolean = {
         return (cell1.getX()==cell2.getX() && cell1.getY()==cell2.getY())
+    }
+
+    def isValid(cell: Cell): Boolean = {
+        return (cell.getX()>=0 && cell.getX()<10 && cell.getY()>=0 && cell.getY()<10)
     }
 
     def checkCellPresence(cell1: Cell, cellList: List[Cell]): Boolean = {
@@ -213,41 +235,66 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return false
     }
 
-    def getSmartCell(attacker: Player,attacked: Player): Cell = {
-        val hitsList = attacked.getHits()
-        val missList = attacked.getMiss()
-        val unTouchedCells = GameUtils.getFullGrid(0,0,Nil).diff(attacked.getHits())
-        val emptyCells = unTouchedCells.diff(attacked.getMiss)
-        if(hitsList.length>0){
-            val randomIndex = Random.nextInt(hitsList.length)
-            val testCell1 = new Cell(hitsList(randomIndex).getX()+1,hitsList(randomIndex).getY())
-            val testCell2 = new Cell(hitsList(randomIndex).getX()-1,hitsList(randomIndex).getY())
-            val testCell3 = new Cell(hitsList(randomIndex).getX(),hitsList(randomIndex).getY()+1)
-            val testCell4 = new Cell(hitsList(randomIndex).getX(),hitsList(randomIndex).getY()-1)
-            if(!checkCellPresence(testCell1,emptyCells)){
-                return testCell1
+  // @tailrec
+    def checkHitsList(hitsList: List[Cell], attacker: Player, attacked: Player): Cell = {
+        hitsList.foreach{hit=>
+            println("List : ")
+            printList(hitsList)
+
+            /*println("Hit : ")
+            print(hit)*/
+            val newXCell = new Cell(hit.getX()+1,hit.getY())
+            val newYCell = new Cell(hit.getX(),hit.getY()-1)
+            val newXCell2 = new Cell(hit.getX()-1,hit.getY())
+            val newYCell2 = new Cell(hit.getX(),hit.getY()+1)
+            if(checkAttackedPos(attacker,attacked,newXCell) && isValid(newXCell)){
+                println("New Xcell" + newXCell)
+                return newXCell
             }
-            else if(!checkCellPresence(testCell2,emptyCells)){
-                return testCell2
+            else if(checkAttackedPos(attacker,attacked,newXCell2) && isValid(newXCell2)){
+                println("New Xcell2" + newXCell2)
+                return newXCell2
             }
-            else if(!checkCellPresence(testCell3,emptyCells)){
-                return testCell3
+            else if(checkAttackedPos(attacker,attacked,newYCell) && isValid(newYCell)){
+                println("New Ycell" + newYCell)
+
+                return newYCell
             }
-            else if(!checkCellPresence(testCell4,emptyCells)){
-                return testCell4
+            else if(checkAttackedPos(attacker,attacked,newYCell2) && isValid(newYCell2)){
+                println("New Ycell2" + newYCell2)
+
+                return newYCell2
+            }
+            else if(hitsList.tail.length>0){
+                val newHitsList = hitsList.drop(1)
+                checkHitsList(newHitsList, attacker, attacked)
             }
             else {
-                return new Cell(Random.nextInt(10),Random.nextInt(10))
+                val newCell = new Cell(Random.nextInt(10),Random.nextInt(10))
+                if(checkAttackedPos(attacker, attacked, newCell)){
+                    println("ON LA RETOUUUURNE")
+                    return newCell
+                }
+                else checkHitsList(hitsList, attacker, attacked)
             }
         }
-        else {
-            return new Cell(Random.nextInt(10),Random.nextInt(10))
+        val newCell = new Cell(Random.nextInt(10),Random.nextInt(10))
+        if(checkAttackedPos(attacker, attacked, newCell)){
+            println("ON LA RETOUUUURNE 2")
+            return newCell
         }
+        else checkHitsList(hitsList, attacker, attacked)
+    }
+
+    def getSmartCell(attacker: Player,attacked: Player): Cell = {
+        val hitsList = attacked.getHits()
+        val newCell = checkHitsList(hitsList,attacker,attacked)
+        return newCell
     }
 
     def checkAttackedPos(attacker: Player, attacked: Player, cellAttacked: Cell): Boolean = {
         val shotCells = attacked.getMiss() ::: attacked.getHits()
-            
+       
         shotCells.foreach{checkCell=>
             if(checkCell.getX()==cellAttacked.getX() && checkCell.getY() == cellAttacked.getY()){
                 return false
@@ -279,17 +326,20 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             Random.nextInt(10)
         }
         
-        
-        
         //println("\nEnter the Y position of your attack")
         val yPos = if(attacker.getAILevel()==0) getUserInput.toInt else Random.nextInt(10)
 
         
         val cellAttacked = new Cell(xPos, yPos)
         
+        if(attacker.getAILevel()>2){
+                val smartCell = getSmartCell(attacker, attacked)
+                checkBoatsHits(attacked, smartCell)
+        }
         if(attacker.getAILevel()>=2 && !checkAttackedPos(attacker,attacked,cellAttacked)){
             attack(attacker,attacked)
         }
+        
         else checkBoatsHits(attacked, cellAttacked)
     }
 }
