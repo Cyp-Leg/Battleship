@@ -15,7 +15,9 @@ object Game extends App{
     }
 
     def displayMenu():Unit = {
-        println("Welcome to the Battleship game.")
+        println("\n\n***********\n")
+        println("BATTLESHIP")
+        println("\n***********\n\n")
         println("Please chose your game mode : ")
         println("(1) Player Versus Player")
         println("(2) Player Versus AI")

@@ -1,7 +1,13 @@
-[0m[[0m[33mwarn[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:136:16: Octal escape literals are deprecated, use \u001b instead.[0m
-[0m[[0m[33mwarn[0m] [0m[0m        print("\033[H\033[2J")[0m
-[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
-[0m[[0m[33mwarn[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:136:22: Octal escape literals are deprecated, use \u001b instead.[0m
-[0m[[0m[33mwarn[0m] [0m[0m        print("\033[H\033[2J")[0m
-[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:252:64: not found: value isValid[0m
+[0m[[0m[31merror[0m] [0m[0m            if(checkAttackedPos(attacker,attacked,newXCell) && isValid(newXCell)){ // 1st cell available (not already hit + not outside the grid)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:255:70: not found: value isValid[0m
+[0m[[0m[31merror[0m] [0m[0m            else if(checkAttackedPos(attacker,attacked,newXCell2) && isValid(newXCell2)){[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:258:69: not found: value isValid[0m
+[0m[[0m[31merror[0m] [0m[0m            else if(checkAttackedPos(attacker,attacked,newYCell) && isValid(newYCell)){[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/player/Player.scala:261:70: not found: value isValid[0m
+[0m[[0m[31merror[0m] [0m[0m            else if(checkAttackedPos(attacker,attacked,newYCell2) && isValid(newYCell2)){[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0mfour errors found[0m

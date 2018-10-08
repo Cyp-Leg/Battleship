@@ -24,6 +24,10 @@ class Boat(size: Int, position: List[Cell], num: Int){
         return this.size
     }
 
+    override def toString(): String = {
+        return  this.getPosition() mkString ";"
+    }
+
     def isHit(cell: Cell):Option[Cell] = {
         this.position.foreach{pos =>
             if(pos.getX() == cell.getX() && pos.getY() == cell.getY()){

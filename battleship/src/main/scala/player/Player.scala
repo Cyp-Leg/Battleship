@@ -13,6 +13,10 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return new Player(this.num, this.name, newFleet, hits, miss, lastHit, iaLevel)
     }
 
+    def getName(): String = {
+        return this.name
+    }
+
     def getNum():Int = {
         return this.num
     }
@@ -55,7 +59,12 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         }
     }
 
-    def checkPosition(cell: Cell, allPositions: List[Cell]): Boolean = {
+
+    def equals(player2: Player): Boolean = {
+        return (this.getNum()==player2.getNum() && this.name == player2.getName() && this.getFleet() == player2.getFleet() && this.getHits() == player2.getHits() && this.getLastHit() == player2.getLastHit() && this.getAILevel() == player2.getAILevel())
+    }
+
+    def checkPosition(cell: Cell, allPositions: List[Cell]): Boolean = { // Check positions of the boats of a player (false if the cell is contained in allPositions)
         allPositions.foreach{elt=>
             if((elt.getX() == cell.getX()) && (elt.getY() == cell.getY())){
                 return false
@@ -220,17 +229,10 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return newPlayer
     }
 
-    def compareCells(cell1: Cell, cell2: Cell): Boolean = {
-        return (cell1.getX()==cell2.getX() && cell1.getY()==cell2.getY())
-    }
-
-    def isValid(cell: Cell): Boolean = {
-        return (cell.getX()>=0 && cell.getX()<10 && cell.getY()>=0 && cell.getY()<10)
-    }
 
     def checkCellPresence(cell1: Cell, cellList: List[Cell]): Boolean = {
         cellList.foreach{cell=>
-            if(compareCells(cell1,cell)){
+            if(Player.compareCells(cell1,cell)){
                 return true
             }
         }
@@ -247,16 +249,16 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             val newXCell2 = new Cell(hit.getX()-1,hit.getY()) // 3
             val newYCell2 = new Cell(hit.getX(),hit.getY()+1) // 4
 
-            if(checkAttackedPos(attacker,attacked,newXCell) && isValid(newXCell)){ // 1st cell available (not already hit + not outside the grid)
+            if(checkAttackedPos(attacker,attacked,newXCell) && Player.isValid(newXCell)){ // 1st cell available (not already hit + not outside the grid)
                 return newXCell
             }
-            else if(checkAttackedPos(attacker,attacked,newXCell2) && isValid(newXCell2)){
+            else if(checkAttackedPos(attacker,attacked,newXCell2) && Player.isValid(newXCell2)){
                 return newXCell2
             }
-            else if(checkAttackedPos(attacker,attacked,newYCell) && isValid(newYCell)){
+            else if(checkAttackedPos(attacker,attacked,newYCell) && Player.isValid(newYCell)){
                 return newYCell
             }
-            else if(checkAttackedPos(attacker,attacked,newYCell2) && isValid(newYCell2)){
+            else if(checkAttackedPos(attacker,attacked,newYCell2) && Player.isValid(newYCell2)){
                 return newYCell2
             }
             else if(hitsList.tail.length>0){ // if there is more than 1 element in the list && no cells available around the 1st cell of hitsList
@@ -335,4 +337,12 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
 }
 
 object Player{
+
+    def compareCells(cell1: Cell, cell2: Cell): Boolean = {
+        return (cell1.getX()==cell2.getX() && cell1.getY()==cell2.getY())
+    }
+
+    def isValid(cell: Cell): Boolean = {
+        return (cell.getX()>=0 && cell.getX()<10 && cell.getY()>=0 && cell.getY()<10)
+    }
 }
