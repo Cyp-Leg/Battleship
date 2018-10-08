@@ -5,7 +5,6 @@ import boats._
 import player._
 import battleship._
 import scala.annotation.tailrec
-import java.io._
 
 
 object Game extends App{
@@ -54,7 +53,7 @@ object Game extends App{
     def initiateGame(menuChoice: List[Int], gameState: GameState): Unit = {
         
         if(gameState.gamesNb==0){
-            GameUtils.endGame(gameState.p1wins, gameState.p2wins)
+            GameUtils.endGame(gameState.p1wins, gameState.p2wins, menuChoice)
         }
         else if(gameState.gamesNb>0){
             val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, menuChoice(1))
@@ -161,61 +160,25 @@ object Game extends App{
             initiateGame(choice, gameState)
         }
         if(choice(0)==3){
-            val content = "IA Name; score; IA Name2; score2"
-            writeToFile("/home/cyp/ai_proof.csv",content)
+            GameUtils.writeToFile("ai_proof.csv","IA Name; score; IA Name2; score2")
             val secGameState = new GameState(0,1,0,0,0,100)
             val secChoice = List(3,3,1) // Choice 3, IA1 level 3, IA2 level 1
-            println("IA 1 Level : 3")
-            println("IA 2 Level : 1")
             initiateGame(secChoice, secGameState)
-        }
-        if(choice(0)==3){
-            val thirdGameState = new GameState(0,1,0,0,0,100)
+        
+            val thirdGameState = new GameState(0,1,0,0,0,100) // Level 3 vs 2
             val thirdChoice = List(3,3,2)
             println("IA 1 Level : 3")
             println("IA 2 Level : 2")
             initiateGame(thirdChoice, thirdGameState)
-        }
-        if(choice(0)==3){
-            val fourthGameState = new GameState(0,1,0,0,0,100)
-            val fourthChoice = List(3,3,3)
-            println("IA 1 Level : 3")
-            println("IA 2 Level : 3")
-            initiateGame(fourthChoice, fourthGameState)
-        }
-        if(choice(0)==3){
-            val fifthGameState = new GameState(0,1,0,0,0,100)
-            val fifthChoice = List(3,2,1)
+    
+        
+            val fourthGameState = new GameState(0,1,0,0,0,100)// Level 2 vs 1
+            val fourthChoice = List(3,2,1)
             println("IA 1 Level : 2")
             println("IA 2 Level : 1")
-            initiateGame(fifthChoice,  fifthGameState)
+            initiateGame(fourthChoice,  fourthGameState)
+        
         }
-        if(choice(0)==3){
-            val sixthGameState = new GameState(0,1,0,0,0,100)
-            val sixthChoice = List(3,2,2)
-            println("IA 1 Level : 2")
-            println("IA 2 Level : 2")
-            initiateGame(sixthChoice,  sixthGameState)
-        }
-        if(choice(0)==3){
-            val sevGameState = new GameState(0,1,0,0,0,100)
-            val sevChoice = List(3,1,1)
-            println("IA 1 Level : 1")
-            println("IA 2 Level : 1")
-            initiateGame(sevChoice, sevGameState)
-        }
-    }
-
-    /**
-      * Function that write into a file the content put as parameters
-      * @param location: String: name and location of the file on the computer
-      * @param content: String: Content to write into the file
-      */
-    def writeToFile(location: String, content: String): Unit = {
-        val bw = new BufferedWriter(new FileWriter(location))
-        bw.write(content)
-        bw.flush()
-        bw.close()
     }
 
     launch()

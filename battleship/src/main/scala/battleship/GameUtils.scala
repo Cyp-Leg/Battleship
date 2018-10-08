@@ -4,6 +4,7 @@ import scala.collection.immutable
 import boats._
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
+import java.io._
 
 
 object GameUtils{
@@ -11,11 +12,53 @@ object GameUtils{
 
     def getUserInput(): String = readLine.trim.toUpperCase
 
+    /**
+      * Function that appends at the end of a file the content put as parameters
+      * @param location: String: name and location of the file on the computer
+      * @param content: String: Content to write into the file
+      */
+    def appendToFile(location: String, content: String): Unit = {
+        val bw = new BufferedWriter(new FileWriter(location,true))
+        bw.append(content+"\r\n")
+        bw.flush()
+        bw.close()
+    }
+    
+    /**
+      * Function that writes at the end of a file the content put as parameters
+      * @param location: String: name and location of the file on the computer
+      * @param content: String: Content to write into the file
+      */
+    def writeToFile(location: String, content: String): Unit = {
+        val bw = new BufferedWriter(new FileWriter(location,false))
+        bw.append(content+"\r\n")
+        bw.flush()
+        bw.close()
+    }
 
-    def endGame(p1wins: Int, p2wins: Int){
+    def endGame(p1wins: Int, p2wins: Int, chosenMode: List[Int]){
         println("End of the game !")
         println("Player 1 : "+p1wins+" wins")
         println("Player 2 : "+p2wins+" wins")
+        if(chosenMode(0)==3){
+            val firstAIName = if(chosenMode(1)==1){
+            "Level Beginner"
+            }
+            else if(chosenMode(1)==2){
+            "Level Medium"
+            }
+            else "Level Hard"
+            val secondAIName = if(chosenMode(2)==1){
+            "Level Beginner"
+            }
+            else if(chosenMode(2)==2){
+            "Level Medium"
+            }
+            else "Level Hard"
+            appendToFile("ai_proof.csv",firstAIName + ";" + p1wins + ";" + secondAIName + ";" + p2wins)
+        }
+
+
     }
     def gameOver(playerNum: Int): Unit = {
         println("Player "+playerNum+"'s fleet has been sunk. Good job!")
@@ -31,7 +74,7 @@ object GameUtils{
     }
 
     def displayOrientation(playerNum: Int, shipName: String):Unit = {
-    println("Player "+playerNum+", chose the orientation of your " + shipName + " ('L','R','U','D')")
+        println("Player "+playerNum+", chose the orientation of your " + shipName + " ('L','R','U','D')")
     }
 
     @tailrec
@@ -41,7 +84,7 @@ object GameUtils{
             fleet.foreach{boat=>
                 boat.getPosition().foreach{pos=>
                     if(pos.getX()==col && pos.getY() == 9-line){
-                        cell = Console.RED + " |" + boat.getNum() + "| " + Console.RESET
+                        cell = scala.Console.RED + " |" + boat.getNum() + "| " + scala.Console.RESET
                     }
                 }
             }
