@@ -1,13 +1,8 @@
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:21:33: illegal start of simple pattern[0m
-[0m[[0m[31merror[0m] [0m[0m        val boat15  boatsPlayer1.tail.tail.tail.tail.head[0m
-[0m[[0m[31merror[0m] [0m[0m                                ^[0m
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:24:1: '=' expected.[0m
-[0m[[0m[31merror[0m] [0m[0m        val boat21 = boatsPlayer1.head[0m
-[0m[[0m[31merror[0m] [0m[0m^[0m
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:28:33: illegal start of simple pattern[0m
-[0m[[0m[31merror[0m] [0m[0m        val boat25  boatsPlayer1.tail.tail.tail.tail.head[0m
-[0m[[0m[31merror[0m] [0m[0m                                ^[0m
-[0m[[0m[31merror[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/Game.scala:31:1: '=' expected.[0m
-[0m[[0m[31merror[0m] [0m[0m        val newPlayer1 = player1.createFleet(boat11,boat12,boat13,boat14,boat15)[0m
-[0m[[0m[31merror[0m] [0m[0m^[0m
-[0m[[0m[31merror[0m] [0m[0mfour errors found[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:167:16: Octal escape literals are deprecated, use \u001b instead.[0m
+[0m[[0m[33mwarn[0m] [0m[0m        print("\033[H\033[2J")[0m
+[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:167:22: Octal escape literals are deprecated, use \u001b instead.[0m
+[0m[[0m[33mwarn[0m] [0m[0m        print("\033[H\033[2J")[0m
+[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere was one feature warning; re-run with -feature for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m

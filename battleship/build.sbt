@@ -10,3 +10,5 @@ lazy val root = (project in file(".")).
     name := "Battleship",
     libraryDependencies += scalaTest % Test
   )
+
+scalacOptions := Seq("-unchecked", "-deprecation")
