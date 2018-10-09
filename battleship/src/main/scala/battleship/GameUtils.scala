@@ -143,13 +143,19 @@ object GameUtils{
         var cell:String = ""
             fleet.foreach{boat=>
                 boat.getPosition().foreach{pos=>
-                    if(pos.getX()==col && pos.getY() == 9-line){
-                        cell = scala.Console.RED + " |" + boat.getNum() + "| " + scala.Console.RESET
+                    if(pos.getX()==col && pos.getY() == line){
+                    if(col==0){
+                        cell = line + scala.Console.RED + " |" + boat.getNum() + "| " + scala.Console.RESET
+                    }
+                    else cell = scala.Console.RED + " |" + boat.getNum() + "| " + scala.Console.RESET
                     }
                 }
             }
             if(cell.length==0){
-                cell = " | | "
+                if(col==0){
+                    cell = line+" | | "
+                }
+                else cell = " | | "
             }
             print(cell)
             val newCol = col+1
@@ -163,8 +169,12 @@ object GameUtils{
         }
     }
 
+    def displayCols(){
+        println("   0    1    2    3    4    5    6    7    8    9   ")
+    }
+
     def clearConsole(){
-        print("\033[H\033[2J")
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     }
 
     /** Function that displays a full grid

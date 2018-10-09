@@ -125,7 +125,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
             val xPos = if(this.aiLevel==0) GameUtils.getIntInput() else Random.nextInt(10)
 
             if(this.aiLevel==0){
-                GameUtils.displayXPosition(this.num, shipName, size)
+                GameUtils.displayYPosition(this.num, shipName, size)
             }
             val yPos = if(this.aiLevel==0) GameUtils.getIntInput().toInt else Random.nextInt(10)
             
@@ -215,7 +215,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
                     val acceptedPos = checkPosition(newCell,allPositions)
                     val newCells = newCell :: cells
                     if(acceptedPos){
-                        createPosition(newSize, xPos,yPos+1, orientation, newCells, allPositions)
+                        createPosition(newSize, xPos,yPos-1, orientation, newCells, allPositions)
                     }
                     else return None
                 }
@@ -225,7 +225,7 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
                     val acceptedPos = checkPosition(newCell,allPositions)
                     val newCells = newCell :: cells
                     if(acceptedPos){
-                        createPosition(newSize, xPos,yPos-1, orientation, newCells, allPositions)
+                        createPosition(newSize, xPos,yPos+1, orientation, newCells, allPositions)
                     }
                     else return None
                 }

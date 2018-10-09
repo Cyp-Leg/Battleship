@@ -1,12 +1,3 @@
-run
-compile
-run
-compile
-run
-compile
-run
-compile
-run
 compile
 run
 compile
@@ -497,4 +488,13 @@ test
 compile
 doc
 compile
+run
+tets
+test
+run
+test
+run
+0
+run
+test
 run

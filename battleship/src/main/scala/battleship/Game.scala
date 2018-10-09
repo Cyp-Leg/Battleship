@@ -119,9 +119,11 @@ object Game extends App{
                 println("Player 1, your turn!")
 
                 println("\nYour fleet : \n")
+                GameUtils.displayCols()
                 GameUtils.displayGrid(0,0, player1.getFleet())
 
                 println("\nYour hit board : \n")
+                GameUtils.displayCols()
                 PlayerBoard.displayHitBoard(0,0,player2.getHits(), player2.getMiss())
             }
 
@@ -154,11 +156,13 @@ object Game extends App{
                 GameUtils.clearConsole()
                 println("Player 2, your turn!")
 
-                println("\nYour fleet : \n")            
+                println("\nYour fleet : \n")     
+                GameUtils.displayCols()
                 GameUtils.displayGrid(0,0, player2.getFleet())
 
 
                 println("\nYour hit board : \n")
+                GameUtils.displayCols()
                 PlayerBoard.displayHitBoard(0,0,player1.getHits(), player1.getMiss())
             }
 

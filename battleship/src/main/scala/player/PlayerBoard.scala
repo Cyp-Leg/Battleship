@@ -17,14 +17,20 @@ object PlayerBoard{
         if(col<10 && line<10){
         var cell:String = ""
             missed.foreach{miss=>
-                if(miss.getX()==col && miss.getY() == 9-line){
-                    cell = Console.BLUE + " |o| " + Console.RESET
+                if(miss.getX()==col && miss.getY() == line){
+                    if(col==0){
+                        cell = line+Console.BLUE + " |o| " + Console.RESET
+                    }
+                    else cell = Console.BLUE + " |o| " + Console.RESET
                 }
             }
             
             strikes.foreach{strike=>
-                if(strike.getX()==col && strike.getY() == 9-line){
-                    cell = Console.RED + " |x| " + Console.RESET
+                if(strike.getX()==col && strike.getY() == line){
+                    if(col==0){
+                        cell = line+Console.RED + " |x| " + Console.RESET
+                    }
+                    else cell = Console.RED + " |x| " + Console.RESET
                 }
             }
         
@@ -32,7 +38,10 @@ object PlayerBoard{
 
 
             if(cell.length==0){
-                cell = " | | "
+                if(col==0){
+                    cell = line+" | | "
+                }
+                else cell = " | | "
             }
             print(cell)
             val newCol = col+1
