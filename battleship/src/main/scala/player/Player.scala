@@ -229,16 +229,6 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return newPlayer
     }
 
-
-    def checkCellPresence(cell1: Cell, cellList: List[Cell]): Boolean = {
-        cellList.foreach{cell=>
-            if(Player.compareCells(cell1,cell)){
-                return true
-            }
-        }
-        return false
-    }
-
   
     def checkHitsList(hitsList: List[Cell], attacker: Player, attacked: Player): Cell = {
         if(hitsList.length>0){ // At least 1 boat hit

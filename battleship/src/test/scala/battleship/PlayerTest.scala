@@ -88,4 +88,43 @@ class PlayerTest extends FunSuite{
         assert(!Player.isValid(cell4))
     }
 
+    test("Testing the Player class : createFleet"){
+        val cell1 = new Cell(3,3)
+        val cell2 = new Cell(3,4)
+        val cell3 = new Cell(0,0)
+        
+        val boat1 = new Boat(2,List(cell1,cell2),1)
+        val boat2 = new Boat(1,List(cell3),2)
+
+        val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, 0)
+
+        assert(player1.createFleet(List(boat1,boat2), List(), List(), null, 0).toString() == new Player(1, "Player 1", List(boat1,boat2), List(), List(), null, 0).toString())
+    }
+
+    test("Testing the Player class : checkHitsList"){
+
+        val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, 0)
+        val player2 = new Player(2, "Player 2", Nil, Nil, Nil, null, 0)
+
+        val cell1 = new Cell(1,1)
+        val hitsList = List(cell1)
+
+        assert(player1.checkHitsList(hitsList, player1,player2).toString() == new Cell(cell1.getX()+1,cell1.getY()).toString()) // assert that the cell(x+1,y) is returned
+    }
+
+    test("Testing the Player class : checkAttackedPos"){
+
+        val cell1 = new Cell(1,1)
+        val cell2 = new Cell(2,1)
+        val cell3 = new Cell(3,1)
+
+        val player1 = new Player(1, "Player 1", Nil, List(cell1,cell2), List(cell3), null, 0)
+        val player2 = new Player(2, "Player 2", Nil, Nil, Nil, null, 0)
+
+        assert(player1.checkAttackedPos(player1, player2, cell1))
+        assert(player1.checkAttackedPos(player1, player2, cell2))
+        assert(player1.checkAttackedPos(player1, player2, cell3))
+
+        assert(!player1.checkAttackedPos(player2, player1, cell1))
+    } 
 }

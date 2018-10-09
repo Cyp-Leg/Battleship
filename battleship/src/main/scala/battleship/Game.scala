@@ -67,11 +67,13 @@ object Game extends App{
         else{
             if(gameState.gamesNb==0){
                 GameUtils.endGame(gameState.p1wins, gameState.p2wins, menuChoice)
-                val choice = GameUtils.getIntInput()
-                if(choice==1){
-                    launch()
+                if(menuChoice(0)!=3){
+                    val choice = GameUtils.getIntInput()
+                    if(choice==1){
+                        launch()
+                    }
+                    else GameUtils.endGame()
                 }
-                else GameUtils.endGame()
             }
             else if(gameState.gamesNb>0){
                 val player1 = new Player(1, "Player 1", Nil, Nil, Nil, null, menuChoice(1))
@@ -195,7 +197,14 @@ object Game extends App{
             val fourthChoice = List(3,2,1)
             println("IA 1 Level : 2")
             println("IA 2 Level : 1")
-            initiateGame(fourthChoice,  fourthGameState)
+            initiateGame(fourthChoice, fourthGameState)
+
+            /*GameUtils.endGame(gameState.p1wins, gameState.p2wins, List(3,0,0))
+            val choice = GameUtils.getIntInput()
+            if(choice==1){
+                launch()
+            }
+            else GameUtils.endGame()*/
         
         }
     }
