@@ -2,19 +2,19 @@
 *.log
 
 # sbt specific
-.cache/
-.history/
-.lib/
-dist/*
-target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
+battleship/.cache/
+battleship/.history/
+battleship/.lib/
+battleship/dist/*
+battleship/target/
+battleship/lib_managed/
+battleship/src_managed/
+battleship/project/boot/
+battleship/project/plugins/project/
 
 # Scala-IDE specific
-.scala_dependencies
-.worksheet
-.idea
-project/
+battleship/.scala_dependencies
+battleship/.worksheet
+battleship/.idea
+battleship/project/
 

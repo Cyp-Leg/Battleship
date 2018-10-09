@@ -1,7 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:177:16: Octal escape literals are deprecated, use \u001b instead.[0m
-[0m[[0m[33mwarn[0m] [0m[0m        print("\033[H\033[2J")[0m
-[0m[[0m[33mwarn[0m] [0m[0m               ^[0m
-[0m[[0m[33mwarn[0m] [0m[0m/home/cyp/battleship/battleship/src/main/scala/battleship/GameUtils.scala:177:22: Octal escape literals are deprecated, use \u001b instead.[0m
-[0m[[0m[33mwarn[0m] [0m[0m        print("\033[H\033[2J")[0m
-[0m[[0m[33mwarn[0m] [0m[0m                     ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m
