@@ -9,10 +9,27 @@ import scala.util.Random
 class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: List[Cell], lastHit: Cell, aiLevel: Int = 0){
 
 
+    /** Function that creates a player's fleet
+    *
+    *  @param newFleet : list of boats to be added to the player's fleet
+    *  @param hits : cells hit by the opponent
+    *  @param miss : cells shot by the opponent but where no boats are located
+    *  @param lastHit : last cell hit by the opponent
+    *  @param aiLevel : level of the AI of the player (0 if human)
+    *  @return Player : a player with the same attributes at the caller, but with the new fleet
+
+    * 
+    */
     def createFleet(newFleet: List[Boat], hits: List[Cell], miss: List[Cell], lastHit: Cell, iaLevel: Int): Player = {
         return new Player(this.num, this.name, newFleet, hits, miss, lastHit, iaLevel)
     }
 
+    /** Functions that return the attributes of the player
+    *
+    * @return the attribute asked
+    *
+    */
+    
     def getName(): String = {
         return this.name
     }
@@ -59,11 +76,23 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         }
     }
 
-
+    /** Function that checks if 2 players are equals
+    *
+    *  @param player2 : the player to be compared with
+    *  @return Boolean : true if the 2 players are the same
+    * 
+    */
     def equals(player2: Player): Boolean = {
         return (this.getNum()==player2.getNum() && this.name == player2.getName() && this.getFleet() == player2.getFleet() && this.getHits() == player2.getHits() && this.getLastHit() == player2.getLastHit() && this.getAILevel() == player2.getAILevel())
     }
 
+    /** Function that checks if a cell is contained in the fleet of a player
+    *
+    *  @param cell : cell to be compared with the list of cells, to check if it is contained inside
+    *  @param allPositions : list of all the 
+    *  @return Player : a player with the same attributes at the caller, but with the new fleet
+    * 
+    */
     def checkPosition(cell: Cell, allPositions: List[Cell]): Boolean = { // Check positions of the boats of a player (false if the cell is contained in allPositions)
         allPositions.foreach{elt=>
             if((elt.getX() == cell.getX()) && (elt.getY() == cell.getY())){
@@ -77,6 +106,16 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return true
     }
 
+    
+    /** Function that creates the boats with user inputs
+    *
+    *  @param boatsList : list of already created boats
+    *  @param boatsNumber : number of boats created
+    *  @param size : size of the boat
+    *  @param allPositions : all the positions of the player's boats
+    *  @return List[Boat] : list of the boats created by the player
+    * 
+    */
     def getBoats(boatsList: List[Boat],boatsNumber: Int, size: Int, allPositions:List[Cell]): List[Boat] = {
         if(boatsNumber<5){
             val shipName = getShipName(size)
@@ -133,6 +172,17 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         }
     } 
 
+    /** Function that creates positions for the boats, with cells and orientation
+    *
+    *  @param size : size of the position (number of cells)
+    *  @param xPos : X coordinate of the cell
+    *  @param yPos : Y coordinate of the cell
+    *  @param orientation : orientation of the position ("U" = up, "D" = down, "L" = left, "R" = right)
+    *  @param cells : list of the cells that will compose the position
+    *  @param allPositions : list of all the cells already placed on the grid
+    *  @return Option[List[Cell]] : list of the cells composing the position if they are available, None if they are out of the grid or if they overlapse
+    * 
+    */
     def createPosition(size: Int, xPos: Int, yPos: Int, orientation: String, cells: List[Cell], allPositions: List[Cell]): Option[List[Cell]] = {
         if(size==0){
             return Some(cells)
@@ -184,6 +234,13 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         }
     }
 
+    /** Function that checks if a boat of a player is hit by an opponent's attack
+    *
+    *  @param player : player whose boats have to be checked
+    *  @param cellHit : cell that has been shot by the opponent, to be tested
+    *  @return Player : a player with the same attribute as the player checked, but with a new fleet if a boat has been hit
+    * 
+    */
     def checkBoatsHits(player: Player, cellHit: Cell): Player = {
         player.getFleet().foreach{boat=>
             boat.isHit(cellHit) match{
@@ -229,6 +286,14 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
         return newPlayer
     }
 
+    /** Function that determines the next cell to shoot for AI level Hard
+    *
+    *  @param hitsList : List of the cells that have already been shot by the AI
+    *  @param attacker : the player who attacks (here AI level hard)
+    *  @param attacked : the player attacked
+    *  @return Cell : the cell that will be shot by the AI during its attack
+    * 
+    */
   
     def checkHitsList(hitsList: List[Cell], attacker: Player, attacked: Player): Cell = {
         if(hitsList.length>0){ // At least 1 boat hit
@@ -273,6 +338,14 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
     }
 
 
+    /** Function that determines if a cell has already been shot (hit or missed)
+    *
+    *  @param attacker : the player who attacks (here AI level hard or medium)
+    *  @param attacked : the player attacked
+    *  @param cellAttacked : cell that is aimed by the AI
+    *  @return Boolean : true if the cell aimed has not been shot yet
+    * 
+    */
     def checkAttackedPos(attacker: Player, attacked: Player, cellAttacked: Cell): Boolean = {
         val shotCells = attacked.getMiss() ::: attacked.getHits()
        
@@ -285,6 +358,13 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
     }
 
 
+    /** Function that initiates the attack of a player to an other player
+    *
+    *  @param attacker : the player who attacks
+    *  @param attacked : the player attacked
+    *  @return Player : the attacked player with a new hitsList or missList, and a new fleet if he has been hit
+    * 
+    */
     def attack(attacker: Player, attacked: Player): Player = {
         if(attacker.getAILevel() == 0){
             println("\nEnter the X position of your attack")
@@ -328,10 +408,24 @@ class Player(num: Int, name: String, fleet: List[Boat], hits: List[Cell], miss: 
 
 object Player{
 
+    /** Function that compares the coordinates of 2 cells
+    *
+    *  @param cell1 : the first cell to be compared
+    *  @param cell2 : the second cell to be compared
+    *  @return Boolean : true if the cells have the same coordinates
+    * 
+    */
+
     def compareCells(cell1: Cell, cell2: Cell): Boolean = {
         return (cell1.getX()==cell2.getX() && cell1.getY()==cell2.getY())
     }
 
+    /** Function that checks if a value fits in the grid
+    *
+    *  @param cell : the cell to be checked
+    *  @return Boolean : true if the cell fits in the grid
+    * 
+    */
     def isValid(cell: Cell): Boolean = {
         return (cell.getX()>=0 && cell.getX()<10 && cell.getY()>=0 && cell.getY()<10)
     }

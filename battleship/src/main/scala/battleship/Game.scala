@@ -33,6 +33,11 @@ object Game extends App{
         println("(4) Quit the game")
     }
 
+    /** Function that gets the user choice for the game (PvP, PvAI, AIvAI) and possibly the AI level
+    *
+    *  @return List[Int] : List of the choices of the user (List(1) = gameMod, PvP, PvAI or AIvAI, List(2) = AI1 level, List(3) = AI2 level)
+    *  
+    */
     @tailrec
     def getMenuChoice():List[Int] = {
         displayMenu()
@@ -60,6 +65,12 @@ object Game extends App{
         }
     }
 
+    /** Function that initiates the game (instantiates the players and asks for their boats)
+    *
+    *  @param menuChoice : List of the user choices for the game
+    *  @param gameState : GameState containing the state of the game such as round numbers, player 1 wins number, player starting, etc...
+    *  
+    */
     def initiateGame(menuChoice: List[Int], gameState: GameState): Unit = {
         if(menuChoice(0)==4){
             GameUtils.endGame()
@@ -92,7 +103,14 @@ object Game extends App{
         }
     }
 
-
+    /** Function that starts the game (once players and boats have been instanciated)
+    *
+    *  @param player1 : first player
+    *  @param player2 : second player
+    *  @param gameState : GameState containing the state of the game such as round numbers, player 1 wins number, player starting, etc...
+    *  @param menuChoice : List of the user choices for the game
+    *
+    */
     def play(player1: Player, player2: Player,gameState: GameState, menuChoice: List[Int]):Unit = {
         
         if(gameState.playerTurn==1){
@@ -169,6 +187,10 @@ object Game extends App{
             }
         }
     }
+    
+    /** Function that launches the game
+    *
+    */
 
     def launch(): Unit={
         val choice = getMenuChoice()
@@ -184,12 +206,16 @@ object Game extends App{
             GameUtils.writeToFile("ai_proof.csv","IA Name; score; IA Name2; score2")
             val secGameState = new GameState(0,1,0,0,0,100)
             val secChoice = List(3,3,1) // Choice 3, IA1 level 3, IA2 level 1
+            println("IA 1 Level : 3")
+            println("IA 2 Level : 1")
+            println("Fighting...")
             initiateGame(secChoice, secGameState)
         
             val thirdGameState = new GameState(0,1,0,0,0,100) // Level 3 vs 2
             val thirdChoice = List(3,3,2)
             println("IA 1 Level : 3")
             println("IA 2 Level : 2")
+            println("Fighting...")
             initiateGame(thirdChoice, thirdGameState)
     
         
@@ -197,15 +223,10 @@ object Game extends App{
             val fourthChoice = List(3,2,1)
             println("IA 1 Level : 2")
             println("IA 2 Level : 1")
+            println("Fighting...")
             initiateGame(fourthChoice, fourthGameState)
 
-            /*GameUtils.endGame(gameState.p1wins, gameState.p2wins, List(3,0,0))
-            val choice = GameUtils.getIntInput()
-            if(choice==1){
-                launch()
-            }
-            else GameUtils.endGame()*/
-        
+            println("CSV file generated")
         }
     }
 

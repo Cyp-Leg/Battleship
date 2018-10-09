@@ -5,6 +5,14 @@ import boats._
 object PlayerBoard{
 
 
+    /** Function that displays the user's hit board
+    *
+    *  @param line : Number of lines of the grid
+    *  @param col : Number of cols of the grid
+    *  @param strikes : list of cells contained in a boat that the opponent has hit
+    *  @param missed : list of cells not contained in a boat that the opponent has shot
+    *  
+    */
     def displayHitBoard(line: Int, col: Int, strikes:List[Cell], missed:List[Cell]): Unit = {
         if(col<10 && line<10){
         var cell:String = ""

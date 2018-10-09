@@ -10,6 +10,11 @@ import java.lang._
 object GameUtils{
 
 
+    /** Function that takes a user input and checks it validity
+    *
+    *  @return String, the String input from the user
+    *  
+    */
     def getStringInput(): String = {
         try {
             val userInput = readLine.trim.toUpperCase()
@@ -23,6 +28,12 @@ object GameUtils{
         }
     }
 
+
+    /** Function that takes a user input and checks it validity
+    *
+    *  @return Int, the Int input from the user
+    *  
+    */
     def getIntInput(): Int = {
         try {
             val userInput = scala.io.StdIn.readInt()
@@ -60,6 +71,13 @@ object GameUtils{
         bw.close()
     }
 
+    /** Function that takes a user input and checks it validity
+    *
+    *  @param p1wins : Number of wins of the player 1 when this function is called
+    *  @param p2wins : Number of wins of the player 2 when this function is called
+    *  @param chosenMode, the mode chosen by the user (PvP, PvAI, AIvAI)
+    *  
+    */
     def endGame(p1wins: Int, p2wins: Int, chosenMode: List[Int]): Unit = {
         println("End of the game !")
         if(chosenMode(0)!=3){
@@ -90,6 +108,7 @@ object GameUtils{
         }
     }
 
+
     def endGame(): Unit = {
         println("Good bye!")
     }
@@ -97,7 +116,6 @@ object GameUtils{
     def gameOver(playerNum: Int): Unit = {
         println("Player "+playerNum+"'s fleet has been sunk. Good job!")
     }
-
 
     def displayXPosition(playerNum: Int, shipName: String, size: Int):Unit = {
         println("Player "+playerNum+ ", chose the X position of your " + shipName + " (" + size + " cells)")
@@ -112,6 +130,13 @@ object GameUtils{
         println("Player "+playerNum+", chose the orientation of your " + shipName + " ('L','R','U','D')")
     }
 
+    /** Function that displays the user's fleet on the grid
+    *
+    *  @param line : Number of lines of the grid
+    *  @param col : Number of cols of the grid
+    *  @param fleet : The fleet of the player
+    *  
+    */
     @tailrec
     def displayGrid(line: Int, col: Int, fleet:List[Boat]): Unit = {
         if(col<10 && line<10){
@@ -142,6 +167,15 @@ object GameUtils{
         print("\033[H\033[2J")
     }
 
+    /** Function that displays a full grid
+    *
+    *  @param line : Number of lines of the grid
+    *  @param col : Number of cols of the grid
+    *  @param cellList : The list of cells already displayed, used for the recursion
+    *  
+    */
+
+    @tailrec
     def getFullGrid(col: Int, line: Int, cellList: List[Cell]): List[Cell] = {
         if(col<10 && line<10){
             val newCell = new Cell(col, line)
